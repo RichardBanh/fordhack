@@ -1,14 +1,10 @@
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
-from django.http import Http404
 from users.models import Users
 from users.serializers import UsersSerializer
-from django.urls import reverse
-from django.shortcuts import redirect
-from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, serializers, status
-
+from django.contrib.auth.models import Group
 
 # @api_view(['GET'])
 # def current_user(request):

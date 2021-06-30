@@ -14,6 +14,13 @@ class CustomAccountManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
+    
+    def create_superuser(self, username, password):
+                user = self.model(username=username, password=password)
+                user.is_superuser = True
+                user.save(using=self._db)
+
+                return user
 
 # Create your models here.
 class Users(AbstractBaseUser, PermissionsMixin):
