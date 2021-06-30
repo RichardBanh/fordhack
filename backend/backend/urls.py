@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from users import views as user_views
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
+from systemFord import views as ford_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('getuserinfo/', user_views.GetUserInfo.as_view()),
     path('create/', user_views.CustomUserCreate.as_view(), name="create_user"),
+    path('getvehicles/', ford_views.SystemFord.as_view())
 ]
