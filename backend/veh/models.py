@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 # Create your models here.
 
 from django.conf import settings
@@ -13,14 +13,15 @@ class CarModel(models.Model):
     color = models.CharField(max_length=20, blank=False)
     nick_name = models.CharField(max_length=255, blank=False)
     modem_enabled = models.BooleanField(blank=False)
-    vehicleAuthorizationIndicator = models.CharField(max_length=20, blank=False)
+    vehicleAuthorizationIndicator = models.Value(blank=False)
     serviceCompatible = models.BooleanField(blank=False)
     registration_date = models.DateTimeField(auto_now_add=True)
-    user_added = models.OneToOneField(settings.AUTH_USER_MODEL)
     
     
     def __str__(self):
         return self.vehicleId
+
+    
 
 #         if not account in self.friends.all():
 #             self.friends.add(account)

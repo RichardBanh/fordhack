@@ -1,15 +1,21 @@
-# from rest_framework import serializers
+from rest_framework import serializers
 
-# from friendlist.models import FriendListModel, FriendRequestModel
+from veh.models import CarModel
 
-# class FriendListSerializer(serializers.ModelSerializer):
+class CarRequestSerializer(serializers.ModelSerializer):
 
-#     class Meta: 
-#         model =  FriendListModel
-#         fields = ('user', 'friends')
-
-# class FriendRequestSerializer(serializers.ModelSerializer):
-
-#     class Meta: 
-#         model =  FriendRequestModel
-#         fields = ('sender', 'reciever', 'is_active')
+    class Meta: 
+        model =  CarModel
+        fields = (
+            'vehicleId', 
+            'make', 
+            'model_name', 
+            'model_year', 
+            'color', 
+            'nick_name', 
+            'modem_enabled', 
+            'vehicleAuthorizationIndicator', 
+            'serviceCompatible',
+            'registration_date'
+        )
+        
