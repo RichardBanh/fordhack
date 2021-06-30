@@ -16,8 +16,11 @@ class CustomAccountManager(BaseUserManager):
         return user
     
     def create_superuser(self, username, password):
-                user = self.model(username=username, password=password)
+                user = self.create_user(username=username, password=password, uuid="null", phone_number="null", registration_date="null", is_staff=True, email="null")
                 user.is_superuser = True
+                user.is_admin = True
+                user.is_staff = True
+                user.is_active = True
                 user.save(using=self._db)
 
                 return user
@@ -32,6 +35,9 @@ class Users(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=50, null=True)
     registration_date = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     objects = CustomAccountManager()
     USERNAME_FIELD = 'username'
@@ -41,3 +47,6 @@ class Users(AbstractBaseUser, PermissionsMixin):
                 f'uuid: {self.uuid}.'
                 f'username: {self.username}.'
             )
+
+
+# need to clean this up
