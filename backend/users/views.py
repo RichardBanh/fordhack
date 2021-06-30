@@ -37,7 +37,7 @@ class CustomUserCreate(APIView):
 
 class GetUserInfo(APIView):
     # authentication_classes = [permissions.IsAuthenticated]
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request):
         try:
@@ -50,3 +50,5 @@ class GetUserInfo(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+# new_group = Group.objects.get(name = 'admin')
+# user.groups.add(group)
