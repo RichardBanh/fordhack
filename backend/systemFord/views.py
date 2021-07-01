@@ -1,17 +1,16 @@
 import requests
-from django.http import Http404
-from rest_framework import response
-# Create your views here.
 from rest_framework.response import Response
-from rest_framework import permissions, status
+from rest_framework import permissions, serializers, status
 from rest_framework.views import APIView
-import os
 from veh.models import CarModel
+from models import FordUptoDateModel
 from veh.serializers import CarRequestSerializer
+from serializer import FordUptoDateSerializer
 
+# import os
 class SystemFord(APIView):
     permission_classes = [permissions.AllowAny]
-    bearertok = os.environ.get("FORDAPIKEY")
+    # bearertok = os.environ.get("FORDAPIKEY")
 
     def pullVehical_List(self):
         # headers={ "Authorization": "Bearer "+ str(self.bearertok),
@@ -26,22 +25,29 @@ class SystemFord(APIView):
                     serializer.is_valid()
                     if serializer.is_valid():
                         serializer.save()
-                    else:
-                        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    # else:
+                    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+            FordUptoDateModel.objects.create()
             return Response(r, status=status.HTTP_200_OK)
         except:
             return Response("Request to Ford failed", status=status.HTTP_400_BAD_REQUEST)
 
 
     def post(self, request):
+        #two way request
         response = self.pullVehical_List()
         return response
+    
+    def get(self, request):
+        latestUpdate = FordUptoDateModel.objects.latest('req_date')
+        serializer = FordUptoDateSerializer(latestUpdate)
+        return Response(serializer, status=status.HTTP_200_OK)
+
+            
 
 
 
 
     # def get(self, request):
         ##last update
-
-#brain system thing
