@@ -8,12 +8,12 @@ from django.conf import settings
 class CarModel(models.Model):
     vehicleId = models.CharField(max_length=255, blank=False, unique=True)
     make = models.CharField(max_length=30, blank=False)
-    model_name = models.CharField(max_length=30, blank=False)
-    model_year =  models.CharField(max_length=10, blank=False)
-    color = models.CharField(max_length=20, blank=False)
-    nick_name = models.CharField(max_length=255, blank=False)
-    modem_enabled = models.BooleanField(blank=False)
-    vehicleAuthorizationIndicator = models.Value(blank=False)
+    modelName = models.CharField(max_length=30, blank=False)
+    modelYear =  models.CharField(max_length=10, blank=False)
+    color = models.CharField(max_length=50, blank=False)
+    nickName = models.CharField(max_length=255, blank=False)
+    modemEnabled = models.BooleanField(blank=False)
+    vehicleAuthorizationIndicator = models.PositiveIntegerField()
     serviceCompatible = models.BooleanField(blank=False)
     registration_date = models.DateTimeField(auto_now_add=True)
     

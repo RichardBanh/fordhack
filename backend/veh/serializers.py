@@ -1,6 +1,6 @@
 from rest_framework import serializers
-
 from veh.models import CarModel
+
 
 class CarRequestSerializer(serializers.ModelSerializer):
 
@@ -9,11 +9,11 @@ class CarRequestSerializer(serializers.ModelSerializer):
         fields = (
             'vehicleId', 
             'make', 
-            'model_name', 
-            'model_year', 
+            'modelName', 
+            'modelYear', 
             'color', 
-            'nick_name', 
-            'modem_enabled', 
+            'nickName', 
+            'modemEnabled', 
             'vehicleAuthorizationIndicator', 
             'serviceCompatible',
             'registration_date'

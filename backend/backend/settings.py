@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'corsheaders',
-    'systemFord'
+    'systemFord',
+    'veh'
 ]
 
 MIDDLEWARE = [
