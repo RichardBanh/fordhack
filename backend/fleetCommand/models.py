@@ -15,9 +15,9 @@ class FleetCommandModel(models.Model):
     req_date = models.DateTimeField(auto_now_add=True, editable=False)
     ok_bySuper = models.BooleanField(editable=True, default=False)
     ok_byCustRep = models.BooleanField(editable=True, default=False)
-    initiated_byWho = models.OneToOneField(User, editable=False)
-    Super_Ok = models.OneToOneField(User, null=True, editable=False)
-    CustRep_Ok= models.OneToOneField(User, null=True, editable=False)
+    initiated_byWho = models.OneToOneField(User, editable=False, on_delete=models.DO_NOTHING)
+    Super_Ok = models.OneToOneField(User, null=True, editable=False, on_delete=models.DO_NOTHING)
+    CustRep_Ok= models.OneToOneField(User, null=True, editable=False, on_delete=models.DO_NOTHING)
     active_Req = models.BooleanField(editable=True, default=True)
     
     def __str__(self):

@@ -17,12 +17,20 @@ class FleetCommand(APIView):
         action = request.data["action"]
         vehicleId = request.data["vehicleId"]
         ##Get most reci
+
         obj = FleetCommandModel.objects.get(vehicleId=vehicleId)
         existCondition = obj.exists()
         ##check if exists 
         ##check who is requesting
-        if existCondition:
-            ##serialize and modify
-            if action == "turnOffEngine":
-        else:
-            ##create
+        ##check exist is expensive
+        ##send notification that car is being actioned 
+        ##ok by assignee
+        # if action == "ADD/VEHICLE/SHUTTOFF/PROP":
+        #     ##serialize and modify
+        # elif action == "OK/VEHICLE/SHUTTOFF/PROP":
+        #     ##create
+        # elif action == "UNLOCK/VEHICLE":
+        
+        # elif action == "LOCK/VEHICLE":
+
+        # elif action == "WAKE/VEHICLE":
