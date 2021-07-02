@@ -25,8 +25,6 @@ class SystemFord(APIView):
                     serializer.is_valid()
                     if serializer.is_valid():
                         serializer.save()
-                    # else:
-                    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
             FordUptoDateModel.objects.create()
             return Response(r, status=status.HTTP_200_OK)

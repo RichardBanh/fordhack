@@ -32,6 +32,12 @@ class CarsList(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
+    def get(self, request):
+        try:
+            car = CarModel.objects.all()
+            serializer = CarRequestSerializer(car, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response("Whoops something is funky with the server", status=status.HTTP_400_BAD_REQUEST)
 
             
