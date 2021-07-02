@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'systemFord',
     'veh',
-    'fleetCommand'
+    'fleetCommand',
+    'fleetLocation',
+    'systemFordK'
 ]
 
 MIDDLEWARE = [

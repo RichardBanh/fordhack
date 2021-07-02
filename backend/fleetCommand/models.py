@@ -19,7 +19,7 @@ class FleetCommandModel(models.Model):
     Super_Ok = models.OneToOneField(User, null=True, editable=False, on_delete=models.DO_NOTHING)
     CustRep_Ok= models.OneToOneField(User, null=True, editable=False, on_delete=models.DO_NOTHING)
     active_Req = models.BooleanField(editable=True, default=True)
-    req = models.CharField(max_length=255, blank=False, unique=True, editable=False, Required=True)
+    req = models.CharField(max_length=255, blank=False, unique=True, editable=False)
 
     def __str__(self):
         return (f'vehicleId: {self.vehicleId}.',f'uuid: {self.uuid}.')
