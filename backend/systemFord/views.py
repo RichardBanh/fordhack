@@ -2,9 +2,9 @@ from rest_framework.response import Response
 from rest_framework import permissions, serializers, status
 from rest_framework.views import APIView
 from veh.models import CarModel
-from models import FordUptoDateModel
+from .models import FordUptoDateModel
 from veh.serializers import CarRequestSerializer
-from serializer import FordUptoDateSerializer
+from .serializer import FordUptoDateSerializer
 
 from request import Request
 
@@ -37,10 +37,3 @@ class SystemFord(APIView):
         serializer = FordUptoDateSerializer(latestUpdate)
         return Response(serializer, status=status.HTTP_200_OK)
 
-            
-
-
-
-
-    # def get(self, request):
-        ##last update

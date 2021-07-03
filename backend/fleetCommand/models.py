@@ -1,6 +1,8 @@
 from django.db import models
 import uuid
-from django.contrib.auth.models import User
+from django.conf import settings
+
+
 
 
 
@@ -15,9 +17,9 @@ class FleetCommandModel(models.Model):
     req_date = models.DateTimeField(auto_now_add=True, editable=False)
     ok_bySuper = models.BooleanField(editable=True, default=False)
     ok_byCustRep = models.BooleanField(editable=True, default=False)
-    initiated_byWho = models.OneToOneField(User, editable=False, on_delete=models.DO_NOTHING)
-    Super_Ok = models.OneToOneField(User, null=True, editable=False, on_delete=models.DO_NOTHING)
-    CustRep_Ok= models.OneToOneField(User, null=True, editable=False, on_delete=models.DO_NOTHING)
+    initiated_byWho = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, on_delete=models.DO_NOTHING, related_name="initiated_byWho")
+    Super_Ok = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, editable=False, on_delete=models.DO_NOTHING, related_name="Super_Ok")
+    CustRep_Ok= models.ForeignKey(settings.AUTH_USER_MODEL, null=True, editable=False, on_delete=models.DO_NOTHING, related_name="CustRep_Ok")
     active_Req = models.BooleanField(editable=True, default=True)
     req = models.CharField(max_length=255, blank=False, unique=True, editable=False)
 

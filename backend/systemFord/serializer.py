@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import FordUptoDateModel
+from .models import FordUptoDateModel
 
 class FordUptoDateSerializer(serializers.ModelSerializer):
 

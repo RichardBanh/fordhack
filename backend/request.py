@@ -31,4 +31,17 @@ class Request():
             except:
                 success = False
                 return success
+    
+    def requestDetailGet(self, vehicalId):
+        objBear = Key.shouldUpdate()
+        if objBear.success:
+            headers={"Authorization" : "Bearer " + objBear.bear,
+            "Application-Id": self.appId}
+            try:
+                request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + vehicalId, headers=headers).json()
+                success = True
+                return request, success
+            except:
+                success = False
+                return success
 
