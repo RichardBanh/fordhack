@@ -10,7 +10,7 @@ def hex_uuid():
 class FleetCommandModel(models.Model):
     vehicleId = models.CharField(max_length=255, blank=False, unique=True, editable=False)
     uuid = models.CharField(
-        max_length=32, default=hex_uuid, editable=False, unique=True
+        max_length=32, default=hex_uuid, editable=False, unique=True, primary_key=True
     )
     req_date = models.DateTimeField(auto_now_add=True, editable=False)
     ok_bySuper = models.BooleanField(editable=True, default=False)

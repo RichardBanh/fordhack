@@ -6,7 +6,7 @@ def hex_uuid():
 
 class FordUptoDateModel(models.Model):
     uuid = models.CharField(
-        max_length=32, default=hex_uuid, editable=False, unique=True
+        max_length=32, default=hex_uuid, editable=False, unique=True, primary_key=True
     )
     req_date = models.DateTimeField(auto_now_add=True)
     

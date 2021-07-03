@@ -1,67 +1,16 @@
 from django.shortcuts import render
-import requests
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from rest_framework.views import APIView
 from models import FleetCommandModel
 
 
-# Create your views here.
-# require owners okay... limit engine turnoff one at a time
+
+from request import Request
+
 
 class FleetCommand(APIView):
     permission_classes = [permissions.AllowAny]
-
-    bearer = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlMxUEZhdzdkR2s3bHNFQmEzUjVWMnRLSzVYYnNIWEJsemFXZGhjNUVNdW8ifQ.eyJpc3MiOiJodHRwczovL2RhaDJ2YjJjcHJvZC5iMmNsb2dpbi5jb20vOTE0ZDg4YjEtMzUyMy00YmY2LTliZTQtMWI5NmI0ZjZmOTE5L3YyLjAvIiwiZXhwIjoxNjI1MjAxMDMyLCJuYmYiOjE2MjUxOTk4MzIsImF1ZCI6ImMxZTRjMWEwLTI4NzgtNGU2Zi1hMzA4LTgzNmIzNDQ3NGVhOSIsImxvY2FsZSI6ImVuIiwiaWRwIjoiYjJjX0RwSzFPQW44ZFEiLCJtdG1JZCI6IjU1Y2FhZTRjLWIxZDMtNDAxMC1iZWI1LWRhMDNhNjI1MTM1NCIsInVzZXJHdWlkIjoiT3J3enNKcDVRcXlKWHNrVjRVSHpOczhPUlY2MVI1ZXR2QnlwTDduTTdTY1F2NithNHlNSjVsc3dUZC9ic0FnRCIsInN1YiI6Ijc0YjdkZjI4LWFmNzEtNDc5NS1hNGJmLWNkZTJjYjMyNDlhNCIsIm5vbmNlIjoiMTIzNDU2Iiwic2NwIjoiYWNjZXNzIiwiYXpwIjoiMzA5OTAwNjItOTYxOC00MGUxLWEyN2ItN2M2YmNiMjM2NThhIiwidmVyIjoiMS4wIiwiaWF0IjoxNjI1MTk5ODMyfQ.Gh2-VBu3c4WwznF8Xxgl6-M061fGMpLaNXoTTFbd0MLxjErsPDxS5yp-QkMm9V8H50DMiW7dfieZj8xWykfpY18CwQCdorIRl1BUC9gDs2WpEdt6piJG2sFxcJUjBD5DxoieH0Z2h8sJY-GmCT9IRFgWeciVImE8fbOEBdtOrHhESN3HDykNG3NBYnNAuhxb2e5NvDNG2nkMueOfsEtje3pshN9cD4hnukuUvuSGKBRpZdx5zc1fQSEAAEyuL9HzPu6Pe4c967XFd8sYoKndHmHgPR-86RJ8iHBTRPbRaN3dyEpmGzfY8KK07ZdyKOxhtqRq5XOdy7poX8FZtp42rA"
-
-    appId = "afdc085b-377a-4351-b23e-5e1d35fb3700"
-
-    def stopEngine(self, vehId):
-        headers={"Authorization" : "Bearer " + self.bearer,
-        "Application-Id": self.appId}
-
-        try:
-            request = requests.post('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + str(vehId) + '/stopEngine', headers=headers).json()
-            success = True
-            return request, success
-        except:
-            success = False
-            return success
-    
-    def unlock(self, vehId):
-        headers={"Authorization" : "Bearer " + self.bearer,
-        "Application-Id":self.appId}
-        try:
-            request = requests.post('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + str(vehId) + '/unlock', headers=headers).json()
-            success = True
-            return request, success
-        except:
-            success = False
-            return success
-    
-    def lock(self, vehId):
-        # headers={ "Authorization": "Bearer "+ str(self.bearertok),
-        headers={"Authorization" : "Bearer " + self.bearer,
-        "Application-Id":self.appId}
-        try:
-            request = requests.post('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + str(vehId) + '/lock', headers=headers).json()
-            success = True
-            return request, success
-        except:
-            success = False
-            return success
-    
-    def wake(self, vehId):
-        # headers={ "Authorization": "Bearer "+ str(self.bearertok),
-        headers={"Authorization" : "Bearer " + self.bearer,
-        "Application-Id":self.appId}
-        try:
-            request = requests.post('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + str(vehId) + '/wake', headers=headers).json()
-            success = True
-            return request, success
-        except:
-            success = False
-            return success
 
     def findExistProp(self, vehicleId):
         Org_obj = FleetCommandModel.objects.get(vehicleId=vehicleId)
@@ -103,7 +52,7 @@ class FleetCommand(APIView):
                         dataObj.Super_Ok = request.user
                         dataObj.save()
                         if dataObj.ok_byCustRep:
-                            result = self.stopEngine(vehicleId)
+                            result = Request.requestFleetCommandPost(vehicleId, "/stopEngine")
                             if result.success:
                                 dataObj.active_Req = False
                                 dataObj.save()
@@ -119,7 +68,7 @@ class FleetCommand(APIView):
                         dataObj.CustRep_Ok = request.user
                         dataObj.save()
                         if dataObj.ok_bySuper:
-                            result = self.stopEngine(vehicleId)
+                            result = Request.requestFleetCommandPost(vehicleId, "/stopEngine")
                             if result.success:
                                 dataObj.active_Req = False
                                 dataObj.save()
@@ -134,7 +83,7 @@ class FleetCommand(APIView):
                 obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
                 newRequest = FleetCommandModel(**obj)
                 newRequest.save()
-                result = self.unlock(vehicleId)
+                result = Request.requestFleetCommandPost(vehicleId, "/unlock")
                 if result.success:
                     obj = self.findExistProp(vehicleId)
                     obj.Org_obj.active_Req = False
@@ -146,7 +95,7 @@ class FleetCommand(APIView):
                 obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
                 newRequest = FleetCommandModel(**obj)
                 newRequest.save()
-                result = self.unlock(vehicleId)
+                result = Request.requestFleetCommandPost(vehicleId, "/unlock")
                 if result.success:
                     obj = self.findExistProp(vehicleId)
                     obj.Org_obj.active_Req = False
@@ -159,7 +108,7 @@ class FleetCommand(APIView):
                 obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
                 newRequest = FleetCommandModel(**obj)
                 newRequest.save()
-                result = self.lock(vehicleId)
+                result = Request.requestFleetCommandPost(vehicleId, "/lock")
                 if result.success:
                     obj = self.findExistProp(vehicleId)
                     obj.Org_obj.active_Req = False
@@ -171,7 +120,7 @@ class FleetCommand(APIView):
                 obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
                 newRequest = FleetCommandModel(**obj)
                 newRequest.save()
-                result = self.lock(vehicleId)
+                result = Request.requestFleetCommandPost(vehicleId, "/lock")
                 if result.success:
                     obj = self.findExistProp(vehicleId)
                     obj.Org_obj.active_Req = False
@@ -183,7 +132,7 @@ class FleetCommand(APIView):
                 obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
                 newRequest = FleetCommandModel(**obj)
                 newRequest.save()
-                result = self.wake(vehicleId)
+                result = Request.requestFleetCommandPost(vehicleId, "/wake")
                 if result.success:
                     obj = self.findExistProp(vehicleId)
                     obj.Org_obj.active_Req = False
@@ -195,7 +144,7 @@ class FleetCommand(APIView):
                 obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
                 newRequest = FleetCommandModel(**obj)
                 newRequest.save()
-                result = self.wake(vehicleId)
+                result = Request.requestFleetCommandPost(vehicleId, "/wake")
                 if result.success:
                     obj = self.findExistProp(vehicleId)
                     obj.Org_obj.active_Req = False

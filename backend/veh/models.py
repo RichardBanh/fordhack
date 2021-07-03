@@ -6,7 +6,7 @@ from django.conf import settings
 
 
 class CarModel(models.Model):
-    vehicleId = models.CharField(max_length=255, blank=False, unique=True)
+    vehicleId = models.CharField(max_length=255, blank=False, unique=True, primary_key=True)
     make = models.CharField(max_length=30, blank=False)
     modelName = models.CharField(max_length=30, blank=False)
     modelYear =  models.CharField(max_length=10, blank=False)
