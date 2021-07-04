@@ -6,14 +6,6 @@ from rest_framework.response import Response
 from rest_framework import permissions, serializers, status
 from django.contrib.auth.models import Group
 
-# @api_view(['GET'])
-# def current_user(request):
-#     """Redirect authenticated doctors to DoctorsDetail view"""
-#     if request.user.is_staff:
-#         raise PermissionDenied()
-#     users_uuid = Users.objects.filter(user=request.user.pk).first().uuid
-#     return redirect(reverse('doctors-detail', kwargs={'uuid': users_uuid}))
-
 class CustomUserCreate(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -27,18 +19,8 @@ class CustomUserCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-        
-
-    # def delete(self, request, uuid, format=None):
-    #     doctor = self.get_doctor(uuid)
-    #     doctor.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 class GetUserInfo(APIView):
-    # authentication_classes = [permissions.IsAuthenticated]
     permission_classes = [permissions.IsAuthenticated]
-
     def get(self,request):
         try:
             username = request.user.username
@@ -48,7 +30,3 @@ class GetUserInfo(APIView):
         except:
             print(request)
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-# new_group = Group.objects.get(name = 'admin')
-# user.groups.add(group)

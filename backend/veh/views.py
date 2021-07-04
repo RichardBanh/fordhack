@@ -1,6 +1,6 @@
 from veh.models import CarModel
 from request import Request
-from serializers import CarRequestSerializer
+from .serializers import CarRequestSerializer
 
 from rest_framework.response import Response
 from rest_framework import permissions, status
