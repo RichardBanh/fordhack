@@ -12,14 +12,12 @@ from request import Request
 class FleetCommand(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def findExistProp(self, vehicleId):
-        
-        Org_obj = FleetCommandModel.objects.filter(vehicleId=vehicleId, active_Req=False)
-        print("whoops")
-        exist = True
+    def findExistProp(self, vehicleId): 
+        Org_obj = FleetCommandModel.objects.filter(active_Req=True).filter(vehicleId=vehicleId)
         if Org_obj:
             exist = True
             OrgList= list(Org_obj)
+            print(OrgList)
             return {"exist":exist, "Org_obj":OrgList}
         else:
             return {"exist":False}
@@ -39,15 +37,15 @@ class FleetCommand(APIView):
                 return Response("Already created, Ok recieved from Customer rep: "+ str(ok_byCustRep) + ". Ok recieved from supervisor: " + str(ok_bySuper), status=status.HTTP_400_BAD_REQUEST)
             else:
                 if request.user.is_staff:
-                    obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
-                    newRequest = FleetCommandModel(**obj)
+                    objEntry = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
+                    newRequest = FleetCommandModel(**objEntry)
                     newRequest.save()
-                    return Response(newRequest, status=status.HTTP_201_CREATED)
+                    return Response("It works", status=status.HTTP_201_CREATED)
                 elif request.user.is_admin:
-                    obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
-                    newRequest = FleetCommandModel(**obj)
+                    objEntry = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
+                    newRequest = FleetCommandModel(**objEntry)
                     newRequest.save()
-                    return Response(newRequest.data, status=status.HTTP_201_CREATED)
+                    return Response("It works", status=status.HTTP_201_CREATED)
         
         elif action == "OK/VEHICLE/SHUTTOFF/PROP":
             obj = self.findExistProp(vehicleId)
@@ -57,13 +55,12 @@ class FleetCommand(APIView):
                     if dataObj.ok_byCustRep:
                         return Response("Already approved by another customer rep:" + str(dataObj.CustRep_Ok.username), status=status.HTTP_208_ALREADY_REPORTED)
                     else:
-                        dataObj.ok_bySuper = True
-                        dataObj.Super_Ok = request.user
-                        dataObj.save()
                         if dataObj.ok_byCustRep:
                             req = Request()
                             result = req.requestFleetCommandPost(vehicleId, "/stopEngine")
                             if result.success:
+                                dataObj.ok_bySuper = True
+                                dataObj.Super_Ok = request.user
                                 dataObj.active_Req = False
                                 dataObj.save()
                                 return Response("ENGINE IS OFF, Pending request is completed. Response from ford: " + result.request["commandStatus"], status=status.HTTP_200_OK)
@@ -168,17 +165,3 @@ class FleetCommand(APIView):
                     obj.Org_obj.active_Req = False
                     obj.save()
                     return Response("Unlocked!", status=status.HTTP_200_OK)
-
-
-###posible issues... unpacking data from the database and from the client may not be the same
-###Model save format is not proper as in the obj format needs to be in =form
-
-
-
-###use issues... it is searching one vehicle id what happens if there is more than one request
-###need to determine if the action is completed by the car!
-
-###need to refractor.. alot of the code repeats
-
-
-##need to create two accounts... one is cust server, one is supervisor 
