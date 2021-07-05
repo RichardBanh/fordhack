@@ -9,16 +9,21 @@ class Request():
     def requestFleetCommandPost(self, vehId, urlEnding):
         obj = Key()
         objBear = obj.shouldUpdate()
+        print(objBear["success"])
         if objBear["success"]:
             headers={"Authorization" : "Bearer " + objBear["bear"],
             "Application-Id": self.appId}
             try:
                 request = requests.post('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + str(vehId) + urlEnding, headers=headers).json()
+                print(request)
                 success = True
                 return {"request": request, "success":success}
             except:
                 success = False
                 return {"success":success}
+        # else:
+        #     success = False
+        #     return {"success":success}
     
     def requestFleetListGet(self):
         obj = Key()
