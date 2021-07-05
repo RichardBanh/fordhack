@@ -10,7 +10,9 @@ from rest_framework.views import APIView
 
 
 class CarsList(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
+    
     def put(self, request):
         car = self.getcar_obj(uuid=request.data["vehicleId"])
         serializer = CarRequestSerializer(car, data=request.data)

@@ -7,41 +7,45 @@ class Request():
     appId = "afdc085b-377a-4351-b23e-5e1d35fb3700"
 
     def requestFleetCommandPost(self, vehId, urlEnding):
-        objBear = Key.shouldUpdate()
-        if objBear.success:
-            headers={"Authorization" : "Bearer " + objBear.bear,
+        obj = Key()
+        objBear = obj.shouldUpdate()
+        if objBear["success"]:
+            headers={"Authorization" : "Bearer " + objBear["bear"],
             "Application-Id": self.appId}
             try:
                 request = requests.post('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + str(vehId) + urlEnding, headers=headers).json()
                 success = True
-                return request, success
+                return {"request": request, "success":success}
             except:
                 success = False
-                return success
+                return {"success":success}
     
     def requestFleetListGet(self):
-        objBear = Key.shouldUpdate()
-        if objBear.success:
-            headers={"Authorization" : "Bearer " + objBear.bear,
+        obj = Key()
+        objBear = obj.shouldUpdate()
+        print(objBear)
+        if objBear["success"]:
+            headers={"Authorization" : "Bearer " + objBear["bear"],
             "Application-Id": self.appId}
             try:
                 request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1/', headers=headers).json()
                 success = True
-                return request, success
+                return {"request": request, "success":success}
             except:
                 success = False
-                return success
+                return {"success":success}
     
     def requestDetailGet(self, vehicalId):
-        objBear = Key.shouldUpdate()
+        obj = Key()
+        objBear = obj.shouldUpdate()
         if objBear.success:
             headers={"Authorization" : "Bearer " + objBear.bear,
             "Application-Id": self.appId}
             try:
                 request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + vehicalId, headers=headers).json()
                 success = True
-                return request, success
+                return {"request":request, "success":success}
             except:
                 success = False
-                return success
+                return {"success":success}
 

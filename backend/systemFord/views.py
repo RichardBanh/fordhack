@@ -12,8 +12,11 @@ class SystemFord(APIView):
     permission_classes = [permissions.AllowAny]
 
     def pullVehical_List(self):
-        try:
-            reqObj = Request.requestFleetListGet()
+        
+            req = Request()
+            reqObj = req.requestFleetListGet()
+            if reqObj["success"] == False:
+                return Response("Request to Ford failed", status=status.HTTP_400_BAD_REQUEST)
             for vehicles in reqObj.request['vehicles']:
                 obj = CarModel.objects.filter(vehicleId=vehicles["vehicleId"])
                 if obj.exists() == False:
@@ -23,9 +26,9 @@ class SystemFord(APIView):
                         serializer.save()
 
             FordUptoDateModel.objects.create()
-            return Response(reqObj.request, status=status.HTTP_200_OK)
-        except:
-            return Response("Request to Ford failed", status=status.HTTP_400_BAD_REQUEST)
+            return Response( reqObj["success"], status=status.HTTP_200_OK)
+    #    reqObj.request,
+            
 
 
     def post(self, request):
