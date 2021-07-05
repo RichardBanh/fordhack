@@ -16,9 +16,9 @@ class Key:
     def __accessKeyReq(self):
         try:
             request = requests.post("https://dah2vb2cprod.b2clogin.com/914d88b1-3523-4bf6-9be4-1b96b4f6f919/oauth2/v2.0/token?p=B2C_1A_signup_signin_common", headers=self.headers, data=self.payload).json()
-            print(request)
             success = True
             bearer = request["access_token"]
+            
             return {"bearer": bearer, "success":success}
         except:
             success = False
@@ -55,17 +55,13 @@ class Key:
         if objCheck["exist"]:
             bearer = objCheck["obj"].access
             timeOrigin = objCheck["obj"].timeCreated
-            print("time!!!!!!!!!!!!!!")
-            print(timeOrigin)
-            # timeFormat = "%Y-%m-%d %H:%M:%S"
             
             now=datetime.datetime.now(datetime.timezone.utc)
         
             
             timeDiff = now - timeOrigin
             sec= timeDiff.total_seconds()
-            print(sec)
-            minutes = timeDiff / 60 
+            minutes = int(sec / 60 )
             if minutes >= 20:
                 keyObj = self.__accessKeyReq()
                 if keyObj["success"]:
@@ -73,7 +69,7 @@ class Key:
                     if bearObjSet["success"]:
                         bear = keyObj["bearer"]
                         success = bearObjSet["success"]
-                        return bear, success
+                        return {"bear":bear, "success":success}
                     else:
                         message = bearObjSet["message"]
                         success = bearObjSet["success"]

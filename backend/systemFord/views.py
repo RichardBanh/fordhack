@@ -15,9 +15,10 @@ class SystemFord(APIView):
         
             req = Request()
             reqObj = req.requestFleetListGet()
+            # print(reqObj["request"])
             if reqObj["success"] == False:
                 return Response("Request to Ford failed", status=status.HTTP_400_BAD_REQUEST)
-            for vehicles in reqObj.request['vehicles']:
+            for vehicles in reqObj["request"]["vehicles"]:
                 obj = CarModel.objects.filter(vehicleId=vehicles["vehicleId"])
                 if obj.exists() == False:
                     serializer = CarRequestSerializer(data=vehicles)
@@ -26,7 +27,7 @@ class SystemFord(APIView):
                         serializer.save()
 
             FordUptoDateModel.objects.create()
-            return Response( reqObj["success"], status=status.HTTP_200_OK)
+            return Response( reqObj["request"], status=status.HTTP_200_OK)
     #    reqObj.request,
             
 

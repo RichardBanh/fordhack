@@ -23,13 +23,14 @@ class Request():
     def requestFleetListGet(self):
         obj = Key()
         objBear = obj.shouldUpdate()
-        print(objBear)
+        print(objBear["bear"])
         if objBear["success"]:
-            headers={"Authorization" : "Bearer " + objBear["bear"],
+            headers={"Authorization" : "Bearer " + objBear["bear"],'api-version': '2020-06-01',
             "Application-Id": self.appId}
             try:
-                request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1/', headers=headers).json()
+                request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1', headers=headers).json()
                 success = True
+                print(request)
                 return {"request": request, "success":success}
             except:
                 success = False
