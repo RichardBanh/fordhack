@@ -28,16 +28,13 @@ class SystemFord(APIView):
 
             FordUptoDateModel.objects.create()
             return Response( reqObj["request"], status=status.HTTP_200_OK)
-    #    reqObj.request,
             
-
-
     def post(self, request):
         response = self.pullVehical_List()
         return response
     
     def get(self, request):
         latestUpdate = FordUptoDateModel.objects.latest('req_date')
-        serializer = FordUptoDateSerializer(latestUpdate)
+        serializer = FordUptoDateSerializer(latestUpdate).data
         return Response(serializer, status=status.HTTP_200_OK)
 
