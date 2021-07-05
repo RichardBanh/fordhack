@@ -57,9 +57,15 @@ class Key:
             timeOrigin = objCheck["obj"].timeCreated
             print("time!!!!!!!!!!!!!!")
             print(timeOrigin)
-            t2 = datetime.datetime.now()
-            timeDiff = t2 - timeOrigin
-            minutes = timeDiff.total_seconds() / 60 
+            # timeFormat = "%Y-%m-%d %H:%M:%S"
+            
+            now=datetime.datetime.now(datetime.timezone.utc)
+        
+            
+            timeDiff = now - timeOrigin
+            sec= timeDiff.total_seconds()
+            print(sec)
+            minutes = timeDiff / 60 
             if minutes >= 20:
                 keyObj = self.__accessKeyReq()
                 if keyObj["success"]:
