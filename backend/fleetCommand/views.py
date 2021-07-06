@@ -22,9 +22,6 @@ class FleetCommand(APIView):
         else:
             return {"exist":False}
             
-
-
-
     def post(self, request):
         action = request.data["action"]
         vehicleId = request.data["vehicleId"]
@@ -82,75 +79,91 @@ class FleetCommand(APIView):
                 return Response("Need to create request before approval", status=status.HTTP_404_NOT_FOUND)
 
         elif action == "UNLOCK/VEHICLE":
-            if request.user.is_staff:
-                obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
-                newRequest = FleetCommandModel(**obj)
-                newRequest.save()
+            obj = self.findExistProp(vehicleId, action)
+            if obj["exist"]:
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/unlock")
-                if result.success:
-                    obj = self.findExistProp(vehicleId, action)
-                    obj.Org_obj.active_Req = False
-                    obj.save()
-                    return Response("Unlocked!", status=status.HTTP_200_OK)
-
-            
-            elif request.user.is_admin:
-                obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
-                newRequest = FleetCommandModel(**obj)
-                newRequest.save()
-                req = Request()
-                result = req.requestFleetCommandPost(vehicleId, "/unlock")
-                if result.success:
-                    obj = self.findExistProp(vehicleId, action)
-                    obj["obj"].update(active_Req = False)
-                    return Response("Unlocked!", status=status.HTTP_200_OK)
+                obj["obj"].update(active_Req = False)
+                return Response("Unlocked!", status=status.HTTP_200_OK)
+            else:
+                if request.user.is_staff:
+                    obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
+                    newRequest = FleetCommandModel(**obj)
+                    newRequest.save()
+                    req = Request()
+                    result = req.requestFleetCommandPost(vehicleId, "/unlock")
+                    if result["success"]:
+                        newRequest.update(active_Req = False)
+                        return Response("Unlocked!", status=status.HTTP_200_OK)
+                
+                elif request.user.is_admin:
+                    obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
+                    newRequest = FleetCommandModel(**obj)
+                    newRequest.save()
+                    req = Request()
+                    result = req.requestFleetCommandPost(vehicleId, "/unlock")
+                    if result.success:
+                        obj = self.findExistProp(vehicleId, action)
+                        obj["obj"].update(active_Req = False)
+                        return Response("Unlocked!", status=status.HTTP_200_OK)
 
         
         elif action == "LOCK/VEHICLE":
-            if request.user.is_staff:
-                obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
-                newRequest = FleetCommandModel(**obj)
-                newRequest.save()
+            obj = self.findExistProp(vehicleId, action)
+            if obj["exist"]:
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/lock")
-                if result.success:
-                    obj = self.findExistProp(vehicleId, action)
-                    obj["obj"].update(active_Req = False)
-                    return Response("Unlocked!", status=status.HTTP_200_OK)
+                obj["obj"].update(active_Req = False)
+                return Response("Locked!", status=status.HTTP_200_OK)
+            else:
+                if request.user.is_staff:
+                    obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
+                    newRequest = FleetCommandModel(**obj)
+                    newRequest.save()
+                    req = Request()
+                    result = req.requestFleetCommandPost(vehicleId, "/lock")
+                    if result.success:
+                        obj = self.findExistProp(vehicleId, action)
+                        obj["obj"].update(active_Req = False)
+                        return Response("Unlocked!", status=status.HTTP_200_OK)
 
-            
-            elif request.user.is_admin:
-                obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
-                newRequest = FleetCommandModel(**obj)
-                newRequest.save()
-                req = Request()
-                result = req.requestFleetCommandPost(vehicleId, "/lock")
-                if result.success:
-                    obj = self.findExistProp(vehicleId, action)
-                    obj["obj"].update(active_Req = False)
-                    return Response("Unlocked!", status=status.HTTP_200_OK)
+                elif request.user.is_admin:
+                    obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
+                    newRequest = FleetCommandModel(**obj)
+                    newRequest.save()
+                    req = Request()
+                    result = req.requestFleetCommandPost(vehicleId, "/lock")
+                    if result.success:
+                        obj = self.findExistProp(vehicleId, action)
+                        obj["obj"].update(active_Req = False)
+                        return Response("Unlocked!", status=status.HTTP_200_OK)
 
         elif action == "WAKE/VEHICLE":
-            if request.user.is_staff:
-                obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
-                newRequest = FleetCommandModel(**obj)
-                newRequest.save()
+            obj = self.findExistProp(vehicleId, action)
+            if obj["exist"]:
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/wake")
-                if result.success:
-                    obj = self.findExistProp(vehicleId, action)
-                    obj["obj"].update(active_Req = False)
-                    return Response("Unlocked!", status=status.HTTP_200_OK)
+                obj["obj"].update(active_Req = False)
+                return Response("Unlocked!", status=status.HTTP_200_OK)
+            else:
+                if request.user.is_staff:
+                    obj = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
+                    newRequest = FleetCommandModel(**obj)
+                    newRequest.save()
+                    req = Request()
+                    result = req.requestFleetCommandPost(vehicleId, "/wake")
+                    if result.success:
+                        obj = self.findExistProp(vehicleId, action)
+                        obj["obj"].update(active_Req = False)
+                        return Response("Unlocked!", status=status.HTTP_200_OK)
 
-            
-            elif request.user.is_admin:
-                obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
-                newRequest = FleetCommandModel(**obj)
-                newRequest.save()
-                req = Request()
-                result = req.requestFleetCommandPost(vehicleId, "/wake")
-                if result.success:
-                    obj = self.findExistProp(vehicleId, action)
-                    obj["obj"].update(active_Req = False)
-                    return Response("Unlocked!", status=status.HTTP_200_OK)
+                elif request.user.is_admin:
+                    obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
+                    newRequest = FleetCommandModel(**obj)
+                    newRequest.save()
+                    req = Request()
+                    result = req.requestFleetCommandPost(vehicleId, "/wake")
+                    if result.success:
+                        obj = self.findExistProp(vehicleId, action)
+                        obj["obj"].update(active_Req = False)
+                        return Response("Unlocked!", status=status.HTTP_200_OK)
