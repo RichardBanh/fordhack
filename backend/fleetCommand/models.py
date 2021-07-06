@@ -20,4 +20,4 @@ class FleetCommandModel(models.Model):
     req = models.CharField(max_length=255, blank=False, editable=False)
 
     def __str__(self):
-        return (f'vehicleId: {self.vehicleId}.',f'uuid: {self.uuid}.')
+        return f'vehicleId: {self.vehicleId}.',f'uuid: {self.uuid}.'

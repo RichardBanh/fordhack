@@ -19,7 +19,7 @@ class CarModel(models.Model):
     
     
     def __str__(self):
-        return self.vehicleId
+        return f'vehicleId: {self.vehicleId}.'
 
     
 

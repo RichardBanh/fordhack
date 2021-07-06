@@ -43,10 +43,8 @@ class Users(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
 
     def __str__(self):
-        return (
-                f'uuid: {self.uuid}.'
-                f'username: {self.username}.'
-            )
+        return f'uuid: {self.uuid}.', f'username: {self.username}.'
+            
 
 
 # need to clean this up

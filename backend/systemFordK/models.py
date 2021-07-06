@@ -13,4 +13,4 @@ class accessKey(models.Model):
     timeCreated = models.DateTimeField(auto_now=True, editable=True)
 
     def __str__(self):
-        return (f'uuid: {self.uuid}.')
+        return f'uuid: {self.uuid}.'

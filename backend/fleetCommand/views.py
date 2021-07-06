@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import permissions, status
 from rest_framework.views import APIView
 from .models import FleetCommandModel
-
+from .serializer import FordUptoDateSerializer
 
 
 from request import Request
@@ -12,13 +12,13 @@ from request import Request
 class FleetCommand(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def findExistProp(self, vehicleId): 
-        Org_obj = FleetCommandModel.objects.filter(active_Req=True).filter(vehicleId=vehicleId)
+    def findExistProp(self, vehicleId, action): 
+        Org_obj = FleetCommandModel.objects.filter(active_Req=True).filter(vehicleId=vehicleId).filter(req=action)
         if Org_obj:
             exist = True
             OrgList= list(Org_obj)
-            print(OrgList)
-            return {"exist":exist, "Org_obj":OrgList}
+            OrigData = FordUptoDateSerializer(OrgList,many=True)
+            return {"exist":exist, "Org_obj":dict(OrigData.data[0]), "obj":Org_obj}
         else:
             return {"exist":False}
             
@@ -30,10 +30,10 @@ class FleetCommand(APIView):
         vehicleId = request.data["vehicleId"]
 
         if action == "ADD/VEHICLE/SHUTTOFF/PROP":
-            obj = self.findExistProp(vehicleId)
+            obj = self.findExistProp(vehicleId, action)
             if obj["exist"] == True:
-                ok_bySuper = obj["Org_obj"].ok_bySuper
-                ok_byCustRep = obj["Org_obj"].ok_byCustRep
+                ok_bySuper = obj["Org_obj"]["ok_bySuper"]
+                ok_byCustRep = obj["Org_obj"]["ok_byCustRep"]
                 return Response("Already created, Ok recieved from Customer rep: "+ str(ok_byCustRep) + ". Ok recieved from supervisor: " + str(ok_bySuper), status=status.HTTP_400_BAD_REQUEST)
             else:
                 if request.user.is_staff:
@@ -48,39 +48,33 @@ class FleetCommand(APIView):
                     return Response("It works", status=status.HTTP_201_CREATED)
         
         elif action == "OK/VEHICLE/SHUTTOFF/PROP":
-            obj = self.findExistProp(vehicleId)
-            dataObj = obj["Org_obj"]
+            obj = self.findExistProp(vehicleId, action)
+            dataObj = obj["obj"]
             if obj["exist"] == True:
                 if request.user.is_staff:
-                    if dataObj.ok_byCustRep:
-                        return Response("Already approved by another customer rep:" + str(dataObj.CustRep_Ok.username), status=status.HTTP_208_ALREADY_REPORTED)
+                    if dataObj["ok_byCustRep"]:
+                        return Response("Already approved by another customer rep:" + str(dataObj["CustRep_Ok"]["username"]), status=status.HTTP_208_ALREADY_REPORTED)
                     else:
-                        if dataObj.ok_byCustRep:
+                        if dataObj["ok_byCustRep"]:
                             req = Request()
                             result = req.requestFleetCommandPost(vehicleId, "/stopEngine")
                             if result.success:
-                                dataObj.ok_bySuper = True
-                                dataObj.Super_Ok = request.user
-                                dataObj.active_Req = False
-                                dataObj.save()
+                                dataObj.update(ok_bySuper = True,Super_Ok = request.user,active_Req = False)
                                 return Response("ENGINE IS OFF, Pending request is completed. Response from ford: " + result.request["commandStatus"], status=status.HTTP_200_OK)
                             else:
                                 return Response("Ford request failed", status=status.HTTP_404_NOT_FOUND)
                             
                 elif request.user.is_admin:
-                    if dataObj.ok_bySuper:
-                        return Response("Already approved by another supervisor: " + str(dataObj.Super_Ok.username), status=status.HTTP_208_ALREADY_REPORTED)
+                    if dataObj["ok_bySuper"]:
+                        return Response("Already approved by another supervisor: " + str(dataObj["Super_Ok"]["username"]), status=status.HTTP_208_ALREADY_REPORTED)
                     else:
-                        print("jasdfihaisdhfiuahsdiuhfiaushdfiu hit!!")
-                        dataObj.ok_bySuper = True
-                        dataObj.Super_Ok = request.user
-                        dataObj.save()
+                       
+                        dataObj.update(ok_bySuper = True, Super_Ok = request.user)
                         if dataObj.ok_bySuper:
                             req = Request()
                             result = req.requestFleetCommandPost(vehicleId, "/stopEngine")
                             if result["success"]:
-                                dataObj.active_Req = False
-                                dataObj.save()
+                                dataObj(active_Req = False)
                                 return Response("ENGINE IS OFF, Pending request is completed", status=status.HTTP_200_OK)
                             else:
                                 return Response("Ford request failed", status=status.HTTP_404_NOT_FOUND)
@@ -95,7 +89,7 @@ class FleetCommand(APIView):
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/unlock")
                 if result.success:
-                    obj = self.findExistProp(vehicleId)
+                    obj = self.findExistProp(vehicleId, action)
                     obj.Org_obj.active_Req = False
                     obj.save()
                     return Response("Unlocked!", status=status.HTTP_200_OK)
@@ -108,9 +102,8 @@ class FleetCommand(APIView):
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/unlock")
                 if result.success:
-                    obj = self.findExistProp(vehicleId)
-                    obj.Org_obj.active_Req = False
-                    obj.save()
+                    obj = self.findExistProp(vehicleId, action)
+                    obj["obj"].update(active_Req = False)
                     return Response("Unlocked!", status=status.HTTP_200_OK)
 
         
@@ -122,9 +115,8 @@ class FleetCommand(APIView):
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/lock")
                 if result.success:
-                    obj = self.findExistProp(vehicleId)
-                    obj.Org_obj.active_Req = False
-                    obj.save()
+                    obj = self.findExistProp(vehicleId, action)
+                    obj["obj"].update(active_Req = False)
                     return Response("Unlocked!", status=status.HTTP_200_OK)
 
             
@@ -135,9 +127,8 @@ class FleetCommand(APIView):
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/lock")
                 if result.success:
-                    obj = self.findExistProp(vehicleId)
-                    obj.Org_obj.active_Req = False
-                    obj.save()
+                    obj = self.findExistProp(vehicleId, action)
+                    obj["obj"].update(active_Req = False)
                     return Response("Unlocked!", status=status.HTTP_200_OK)
 
         elif action == "WAKE/VEHICLE":
@@ -148,9 +139,8 @@ class FleetCommand(APIView):
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/wake")
                 if result.success:
-                    obj = self.findExistProp(vehicleId)
-                    obj.Org_obj.active_Req = False
-                    obj.save()
+                    obj = self.findExistProp(vehicleId, action)
+                    obj["obj"].update(active_Req = False)
                     return Response("Unlocked!", status=status.HTTP_200_OK)
 
             
@@ -161,7 +151,6 @@ class FleetCommand(APIView):
                 req = Request()
                 result = req.requestFleetCommandPost(vehicleId, "/wake")
                 if result.success:
-                    obj = self.findExistProp(vehicleId)
-                    obj.Org_obj.active_Req = False
-                    obj.save()
+                    obj = self.findExistProp(vehicleId, action)
+                    obj["obj"].update(active_Req = False)
                     return Response("Unlocked!", status=status.HTTP_200_OK)
