@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshVie
 
 from systemFord import views as ford_views
 from fleetCommand import views as fleetcommand_views
+from fleetLocation import views as fleetlocation_views
 from veh import views as vehicle_views
 
 urlpatterns = [
@@ -14,5 +15,6 @@ urlpatterns = [
     path('create/', user_views.CustomUserCreate.as_view(), name="create_user"),
     path('getvehicles/', ford_views.SystemFord.as_view()),
     path('fleetcommand/', fleetcommand_views.FleetCommand.as_view()),
-    path('carlist/', vehicle_views.CarsList.as_view())
+    path('carlist/', vehicle_views.CarsList.as_view()),
+    path('fleetlocation/', fleetlocation_views.CarLocation.as_view())
 ]

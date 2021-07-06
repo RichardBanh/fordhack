@@ -30,7 +30,7 @@ class Request():
         objBear = obj.shouldUpdate()
         print(objBear["bear"])
         if objBear["success"]:
-            headers={"Authorization" : "Bearer " + objBear["bear"],'api-version': '2020-06-01',
+            headers={"Authorization" : "Bearer " + objBear["bear"],"api-version": "2020-06-01",
             "Application-Id": self.appId}
             try:
                 request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1', headers=headers).json()
@@ -41,14 +41,32 @@ class Request():
                 success = False
                 return {"success":success}
     
-    def requestDetailGet(self, vehicalId):
+    def requestAllVehicleLocationGet(self, vehicalId):
         obj = Key()
         objBear = obj.shouldUpdate()
-        if objBear.success:
-            headers={"Authorization" : "Bearer " + objBear.bear,
+        if objBear["success"]:
+            headers={"Authorization" : "Bearer " + objBear["bear"],
+            "api-version": "2020-06-01",
+            "Application-Id": self.appId}
+            try:
+                request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + vehicalId +"/location", headers=headers).json()
+                print(request)
+                success = True
+                return {"request":request, "success":success}
+            except:
+                success = False
+                return {"success":success}
+    
+    def requestDetailGetOne(self, vehicalId):
+        obj = Key()
+        objBear = obj.shouldUpdate()
+        if objBear["success"]:
+            headers={"Authorization" : "Bearer " + objBear["bear"],
+            "api-version": "2020-06-01",
             "Application-Id": self.appId}
             try:
                 request = requests.get('https://api.mps.ford.com/api/fordconnect/vehicles/v1/' + vehicalId, headers=headers).json()
+                print(request)
                 success = True
                 return {"request":request, "success":success}
             except:

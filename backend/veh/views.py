@@ -31,10 +31,14 @@ class CarsList(APIView):
             except:
                 return Response("Whoops something is funky with the server", status=status.HTTP_400_BAD_REQUEST)
         elif reqTyp == "ONE/DETAIL":
-            vehicleId = request.vehicleId
-            objReq = Request.requestDetailGet(vehicleId)
-            if objReq.success:
-                return Response(objReq.request, status=status.HTTP_200_OK)
+            vehicleId = request.data["vehicleId"]
+            req = Request()
+            objReq = req.requestDetailGetOne(vehicleId)
+            if objReq["success"]:
+                return Response(objReq["request"], status=status.HTTP_200_OK)
+            else:
+                return Response("Request failed", status=status.HTTP_200_OK)
+
 
 
 

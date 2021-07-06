@@ -9,8 +9,7 @@ from request import Request
 
 
 class FleetCommand(APIView):
-    permission_classes = [permissions.AllowAny]
-
+    permission_classes = [permissions.IsAuthenticated]
     def findExistProp(self, vehicleId, action): 
         Org_obj = FleetCommandModel.objects.filter(active_Req=True).filter(vehicleId=vehicleId).filter(req=action)
         if Org_obj:
@@ -54,7 +53,7 @@ class FleetCommand(APIView):
                         if dataObj["ok_byCustRep"]:
                             req = Request()
                             result = req.requestFleetCommandPost(vehicleId, "/stopEngine")
-                            if result.success:
+                            if result["success"]:
                                 dataObj.update(ok_bySuper = True,Super_Ok = request.user,active_Req = False)
                                 return Response("ENGINE IS OFF, Pending request is completed. Response from ford: " + result.request["commandStatus"], status=status.HTTP_200_OK)
                             else:
@@ -64,7 +63,6 @@ class FleetCommand(APIView):
                     if dataObj["ok_bySuper"]:
                         return Response("Already approved by another supervisor: " + str(dataObj["Super_Ok"]["username"]), status=status.HTTP_208_ALREADY_REPORTED)
                     else:
-                       
                         dataObj.update(ok_bySuper = True, Super_Ok = request.user)
                         if dataObj.ok_bySuper:
                             req = Request()
@@ -97,19 +95,17 @@ class FleetCommand(APIView):
                         obj.save()
                         return Response("Unlocked!", status=status.HTTP_200_OK)
 
-                
                 elif request.user.is_admin:
                     obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
                     newRequest = FleetCommandModel(**obj)
                     newRequest.save()
                     req = Request()
                     result = req.requestFleetCommandPost(vehicleId, "/unlock")
-                    if result.success:
+                    if result["success"]:
                         obj = self.findExistProp(vehicleId, action)
                         obj["obj"].update(active_Req = False)
                         return Response("Unlocked!", status=status.HTTP_200_OK)
 
-        
         elif action == "LOCK/VEHICLE":
             obj = self.findExistProp(vehicleId, action)
             if obj["exist"]:
@@ -158,7 +154,6 @@ class FleetCommand(APIView):
                         obj = self.findExistProp(vehicleId, action)
                         obj["obj"].update(active_Req = False)
                         return Response("Woke!", status=status.HTTP_200_OK)
-
 
                 elif request.user.is_admin:
                     obj = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
