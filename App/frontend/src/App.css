@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "Open-Sans";
+  src: url(./Assets/Fonts/OpenSans-Regular.ttf);
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  font-family: Open-Sans, Arial;
+  background-color: ghostwhite;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+}
+
+/* login page*/
+.loginWrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginForm input {
+  margin-bottom: 40px;
+}
+
+
+.loginForm button {
+  width: 70px;
+}

@@ -1,0 +1,10 @@
+create super account
+create cust service account
+
+test all the commands
+
+might have issues doing a request loop?
+
+May have to scale up to a nosql database
+
+May have issues with the database 
