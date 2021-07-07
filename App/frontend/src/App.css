@@ -36,7 +36,13 @@ body {
   margin-bottom: 40px;
 }
 
-
 .loginForm button {
   width: 70px;
+}
+
+.signup input {
+  margin-bottom: 14px;
+}
+.signup button {
+  margin-top: 30px;
 }
