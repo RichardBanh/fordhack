@@ -2,8 +2,8 @@ import "./App.css";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import { Main } from "./Components/mainScreen";
-import { login } from "./Redux/loginReducer";
-
+import { Login } from "./Redux/loginReducer";
+import { LoginProcess } from "../src/Redux/Middleware/loginFetch";
 
 function App() {
   return (
@@ -16,8 +16,10 @@ function App() {
 }
 
 const rootReducer = combineReducers({
-  login,
+  Login,
 });
 
-const store = createStore(rootReducer);
+const middleware = [LoginProcess];
+
+const store = createStore(rootReducer, applyMiddleware(...middleware));
 export default App;

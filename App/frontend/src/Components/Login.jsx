@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginFetch } from "../Fetch-cookie/loginFetch";
+import { loginFetch } from "../Redux/Middleware/loginFetch";
 import { Signup } from "./Signup";
 export const Login = () => {
   const dis = useDispatch();

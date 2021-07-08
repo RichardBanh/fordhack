@@ -35,8 +35,10 @@ export const Signup = (props) => {
           />
           <div>Password</div>
           <input
-            type="text"
+            type="password"
             placeholder="Password"
+            minlength="8"
+            required
             onChange={(e) => {
               setPass(e.target.value);
             }}
@@ -52,6 +54,13 @@ export const Signup = (props) => {
             }}
           >
             Close
+          </button>
+          <button
+            onClick={(e) => {
+              props.setSign(false);
+            }}
+          >
+            Submit
           </button>
         </form>
       </div>
