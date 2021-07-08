@@ -31,14 +31,17 @@ export const Login = () => {
               }}
             />
             <button
-              onClick={async (e) => {
+              onClick={(e) => {
                 e.preventDefault();
-                loginFetch(
-                  { username: userName, password: password },
-                  dis,
-                  "SIGNIN",
-                  { username: userName, signin: true }
-                );
+                dis({
+                  type: "LOGIN/MIDDLEWARE",
+                  payload: {
+                    url: "http://127.0.0.1:8000/token/",
+                    username: userName,
+                    password: password,
+                    method: "POST",
+                  },
+                });
               }}
             >
               Login

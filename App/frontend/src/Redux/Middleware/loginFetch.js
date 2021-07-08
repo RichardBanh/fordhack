@@ -1,25 +1,31 @@
-import { storeCookie } from "../../CookieFunctions/Cookie";
+import { storeCookieJWT } from "../../CookieFunctions/Cookie";
 
 const LoginProcess = (storeAPI) => (next) => (action) => {
-  //error point
-  const bearer = `Bearer ${action.payload.jwt}`;
-  const processedB = bearer.replace(/\"/g, "");
-  //error point
   if (action.type === "LOGIN/MIDDLEWARE") {
+    const raw = JSON.stringify({
+      username: action.payload.username,
+      password: action.payload.password,
+    });
     const fetchfun = async () => {
       const url = action.payload.url;
-      const resp = await fetch(url, {
+      await fetch(url, {
         method: action.payload.method,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: processedB,
+          // Authorization: processedB,
+          // redirect: "follow",
         },
-      });
-      const data = await resp.json();
-      //error point
-      console.log(data);
-      //error point
+        body: raw,
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          storeCookieJWT("refresh", "jwt", result);
+          storeAPI.dispatch({
+            type: "SET/SIGNIN",
+            payload: { username: action.payload.username, signin: true },
+          });
+        });
     };
     fetchfun();
   }
