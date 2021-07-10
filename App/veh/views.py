@@ -20,7 +20,7 @@ class CarsList(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request):
+    def post(self, request):
         reqTyp = request.data["type"]
         if reqTyp == "ALL":
             try:

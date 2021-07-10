@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { loginFetch } from "../Redux/Middleware/loginFetch";
 import { Signup } from "./Signup";
 export const Login = () => {
-  const dis = useDispatch();
+  const dispatch = useDispatch();
   const [userName, setUsername] = useState("");
   const [password, setPass] = useState("");
   const [showSignup, setSign] = useState(false);
@@ -33,7 +33,7 @@ export const Login = () => {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                dis({
+                dispatch({
                   type: "LOGIN/MIDDLEWARE",
                   payload: {
                     url: "http://127.0.0.1:8000/token/",
