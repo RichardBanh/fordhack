@@ -7,7 +7,10 @@ const getVehicleList = (storeAPI) => (next) => (action) => {
     fetchfun(action.payload.url, action.payload.method, true, raw, true)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        storeAPI.dispatch({
+          type: "SET/ALL/CARLIST",
+          payload: { car: response },
+        });
       });
   }
   return next(action);

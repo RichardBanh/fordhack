@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-//auto save function?
 import { ListBlk } from "./ListBlk";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 const containerStyle = {
   width: "40vw",
   height: "100vh",
@@ -14,14 +14,16 @@ const center = {
 };
 export const WorkingScreen = () => {
   const dispatch = useDispatch();
-
+  const carlist = useSelector((state) => state.CarList.carlist);
   useEffect(() => {
     dispatch({
       type: "GET/LIST/MIDDLEWARE",
       payload: { url: "http://127.0.0.1:8000/carlist/", method: "POST" },
     });
   }, []);
+  //add load
 
+  const listCars = carlist.map((x) => <ListBlk data={x} />);
   return (
     <>
       <div className="content">
@@ -33,12 +35,7 @@ export const WorkingScreen = () => {
             <div>Security Console</div>
             <div>Log Out</div>
           </div>
-          <ListBlk />
-          <div className="rec_blk"></div>
-          <div className="rec_blk"></div>
-          <div className="rec_blk"></div>
-          <div className="rec_blk"></div>
-          <div className="rec_blk"></div>
+          {carlist.length > 0 ? listCars : <div>Loading</div>}
         </div>
         <div className="side_right">
           <LoadScript googleMapsApiKey="AIzaSyDjmq8FIkvICMQwQIVlx2pzZ_IbY-tBeG0">
