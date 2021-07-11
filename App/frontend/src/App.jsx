@@ -6,6 +6,8 @@ import { Login } from "./Redux/loginReducer";
 import { LoginProcess } from "../src/Redux/Middleware/loginFetch";
 import { getVehicleList } from "../src/Redux/Middleware/getListFetch";
 import { CarList } from "../src/Redux/carlistReducer";
+import { CarLocation } from "../src/Redux/locationReducer";
+
 function App() {
   return (
     <>
@@ -19,6 +21,7 @@ function App() {
 const rootReducer = combineReducers({
   Login,
   CarList,
+  CarLocation,
 });
 
 const middleware = [LoginProcess, getVehicleList];

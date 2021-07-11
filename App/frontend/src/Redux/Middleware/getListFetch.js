@@ -17,16 +17,3 @@ const getVehicleList = (storeAPI) => (next) => (action) => {
 };
 
 export { getVehicleList };
-// const fetchfun = async () => {
-//   const url = action.payload.url;
-//   const fetch = fetchfun(action.payload.url, action.payload.method, raw);
-//   fetch
-//     .then((response) => response.json())
-//     .then((result) => {
-//       storeCookieJWT("refresh", "jwt", result);
-//       storeAPI.dispatch({
-//         type: "SET/SIGNIN",
-//         payload: { username: action.payload.username, signin: true },
-//       });
-//     });
-// };

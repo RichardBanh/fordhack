@@ -8,14 +8,16 @@ const containerStyle = {
   height: "100vh",
 };
 
+//user settings home profile
 const center = {
-  lat: -3.745,
-  lng: -38.523,
+  lat: 42.3,
+  lng: -83.205,
 };
 
 export const WorkingScreen = () => {
   const dispatch = useDispatch();
   const carlist = useSelector((state) => state.CarList.carlist);
+  const locations = useSelector((state) => state.CarLocation.locations);
   useEffect(() => {
     dispatch({
       type: "GET/LIST/MIDDLEWARE",
@@ -23,7 +25,17 @@ export const WorkingScreen = () => {
     });
   }, []);
 
-  const listCars = carlist.map((x) => <ListBlk data={x} />);
+  const listCars = carlist.map((x, index) => (
+    <ListBlk data={x} index={index} dispatch={dispatch} key={index} />
+  ));
+
+  const markers = locations.map((x, index) => (
+    <Marker
+      index={index}
+      key={index}
+      position={{ lat: parseFloat(x.latitude), lng: parseFloat(x.longitude) }}
+    ></Marker>
+  ));
   return (
     <>
       <div className="content">
@@ -42,10 +54,9 @@ export const WorkingScreen = () => {
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
-              zoom={10}
+              zoom={17}
             >
-              <Marker position={{ lat: -3.745, lng: -38.523 }}></Marker>
-              <></>
+              {markers}
             </GoogleMap>
           </LoadScript>
         </div>

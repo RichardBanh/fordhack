@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import response from "../Assets/response.png";
 import { fetchfun } from "../FetchFunction";
 import { Location } from "./Location";
+
 function truncate(str, n) {
   return str.length > n ? str.substr(0, n - 1) : str;
 }
@@ -23,6 +24,12 @@ export const ListBlk = (props) => {
       .then((response) => {
         setCoord(response.vehicle.vehicleLocation);
         setDetailed(response);
+        response.vehicle.vehicleLocation.id = props.index;
+        console.log(response.vehicle.vehicleLocation);
+        props.dispatch({
+          type: "SET/CARLIST/LOCATION",
+          payload: { location: response.vehicle.vehicleLocation },
+        });
       });
   }, []);
 
@@ -48,6 +55,10 @@ export const ListBlk = (props) => {
       <div className="info">
         <div>Modem Connection On:</div>
         <div className="stats">{"" + props.data.modemEnabled}</div>
+      </div>
+      <div className="info">
+        <div>Rented:</div>
+        <div className="stats">False</div>
       </div>
       <div className="info">
         <div>Location:</div>
