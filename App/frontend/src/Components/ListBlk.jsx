@@ -1,12 +1,29 @@
-import React, { useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import response from "../Assets/response.png";
-
+import { fetchfun } from "../FetchFunction";
 function truncate(str, n) {
   return str.length > n ? str.substr(0, n - 1) : str;
 }
 
 export const ListBlk = (props) => {
   const shortenId = truncate(props.data.vehicleId, 7);
+  const [coord, setCoord] = useState("");
+  const [detailed, setDetailed] = useState({});
+  useEffect(() => {
+    const raw = JSON.stringify({
+      type: "ONE/DETAIL",
+      vehicleId: props.data.vehicleId,
+    });
+    fetchfun("http://127.0.0.1:8000/carlist/", "POST", true, raw, true)
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        console.log(response.vehicle.vehicleLocation);
+        setCoord(response.vehicle.vehicleLocation);
+        setDetailed(response);
+      });
+  }, []);
   return (
     <div className="rec_blk">
       <img className="image_sq" src={response} />
@@ -30,7 +47,10 @@ export const ListBlk = (props) => {
         <div>Connection On:</div>
         <div className="stats">{"" + props.data.modemEnabled}</div>
       </div>
-
+      <div className="info">
+        <div>Location:</div>
+        <div className="stats">{"" + props.data.modemEnabled}</div>
+      </div>
       <div className="button_center">
         <button className="ren">Detail</button>
         <button className="ren">Rental</button>

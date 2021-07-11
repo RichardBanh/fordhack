@@ -12,6 +12,7 @@ const center = {
   lat: -3.745,
   lng: -38.523,
 };
+
 export const WorkingScreen = () => {
   const dispatch = useDispatch();
   const carlist = useSelector((state) => state.CarList.carlist);
@@ -21,7 +22,6 @@ export const WorkingScreen = () => {
       payload: { url: "http://127.0.0.1:8000/carlist/", method: "POST" },
     });
   }, []);
-  //add load
 
   const listCars = carlist.map((x) => <ListBlk data={x} />);
   return (

@@ -16,7 +16,5 @@ export const fetchfun = (url, method, rawch, raw, auth) => {
     sendBod.body = raw;
   }
 
-  console.log(sendBod);
-
   return fetch(url, sendBod);
 };
