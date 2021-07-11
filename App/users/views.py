@@ -28,5 +28,4 @@ class GetUserInfo(APIView):
             serializer= UsersSerializer(userinfo, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
-            print(request)
             return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -37,7 +37,3 @@ class CarsList(APIView):
                 return Response(objReq["request"], status=status.HTTP_200_OK)
             else:
                 return Response("Request failed", status=status.HTTP_200_OK)
-
-
-
-

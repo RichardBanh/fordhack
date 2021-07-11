@@ -9,7 +9,7 @@ from rest_framework import status
 # Create your views here.
 class CarLocation(APIView):
 
-    def get(self, request):
+    def post(self, request):
         reqType = request.data["type"]
         if reqType == "GET/ALL/LOCATIONS":
             car = CarModel.objects.all()
@@ -32,3 +32,9 @@ class CarLocation(APIView):
                     error = "Something wrong with ford request"
                     return Response(error, status=status.HTTP_503_SERVICE_UNAVAILABLE)
             return Response(location, status=status.HTTP_200_OK)
+            
+        if reqType == "GET/ONE/LOCATION":
+            vehicleId = request.data["vehicleId"]
+            car = CarModel.objects.get(vehicleId=vehicleId)
+            serializer = CarRequestSerializer(car).data
+            return Response(serializer, status=status.HTTP_200_OK)
