@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import response from "../Assets/response.png";
 import { fetchfun } from "../FetchFunction";
+import { Location } from "./Location";
 function truncate(str, n) {
   return str.length > n ? str.substr(0, n - 1) : str;
 }
 
 export const ListBlk = (props) => {
   const shortenId = truncate(props.data.vehicleId, 7);
-  const [coord, setCoord] = useState("");
+  const [coord, setCoord] = useState({});
   const [detailed, setDetailed] = useState({});
+
   useEffect(() => {
     const raw = JSON.stringify({
       type: "ONE/DETAIL",
@@ -19,11 +21,11 @@ export const ListBlk = (props) => {
         return res.json();
       })
       .then((response) => {
-        console.log(response.vehicle.vehicleLocation);
         setCoord(response.vehicle.vehicleLocation);
         setDetailed(response);
       });
   }, []);
+
   return (
     <div className="rec_blk">
       <img className="image_sq" src={response} />
@@ -44,12 +46,16 @@ export const ListBlk = (props) => {
         <div className="stats">{props.data.color}</div>
       </div>
       <div className="info">
-        <div>Connection On:</div>
+        <div>Modem Connection On:</div>
         <div className="stats">{"" + props.data.modemEnabled}</div>
       </div>
       <div className="info">
         <div>Location:</div>
-        <div className="stats">{"" + props.data.modemEnabled}</div>
+        {coord.longitude !== undefined ? (
+          <Location coord={coord} />
+        ) : (
+          <div>Loading</div>
+        )}
       </div>
       <div className="button_center">
         <button className="ren">Detail</button>

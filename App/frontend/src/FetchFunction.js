@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 
 export const fetchfun = (url, method, rawch, raw, auth) => {
-  const heading = {
+  let heading = {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
