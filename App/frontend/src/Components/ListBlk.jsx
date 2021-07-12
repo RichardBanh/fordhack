@@ -10,7 +10,7 @@ function truncate(str, n) {
 export const ListBlk = (props) => {
   const shortenId = truncate(props.data.vehicleId, 7);
   const [coord, setCoord] = useState({});
-  const [detailed, setDetailed] = useState({});
+  const [detailed, setDetailed] = useState(null);
 
   useEffect(() => {
     const raw = JSON.stringify({
@@ -23,9 +23,8 @@ export const ListBlk = (props) => {
       })
       .then((response) => {
         setCoord(response.vehicle.vehicleLocation);
-        setDetailed(response);
+        setDetailed(response.vehicle);
         response.vehicle.vehicleLocation.id = props.index;
-        console.log(response.vehicle.vehicleLocation);
         props.dispatch({
           type: "SET/CARLIST/LOCATION",
           payload: { location: response.vehicle.vehicleLocation },
@@ -68,37 +67,49 @@ export const ListBlk = (props) => {
           <div>Loading</div>
         )}
       </div>
-      <div className="button_center">
-        <button className="ren">Detail</button>
-        <button className="ren">Rental</button>
-        <button className="req">Request</button>
-        <button className="req">Notifications</button>
-      </div>
+      {detailed === null ? (
+        <div></div>
+      ) : (
+        <div className="button_center">
+          <button
+            className="ren"
+            onClick={() => {
+              props.setModal(true);
+
+              props.dispatch({
+                type: "SET/MODAL/DATA/DETAIL",
+                payload: { modalDetail: detailed },
+              });
+            }}
+          >
+            Detail
+          </button>
+          <button
+            className="ren"
+            onClick={() => {
+              props.setModal(true);
+            }}
+          >
+            Rental
+          </button>
+          <button
+            className="req"
+            onClick={() => {
+              props.setModal(true);
+            }}
+          >
+            Request
+          </button>
+          <button
+            className="req"
+            onClick={() => {
+              props.setModal(true);
+            }}
+          >
+            Notifications
+          </button>
+        </div>
+      )}
     </div>
   );
 };
-
-//location fetch call here
-
-{
-  /* <div className="info">
-        <div>Engine Type:</div>
-        <div className="stats">ICE</div>
-      </div>
-      <div className="info">
-        <div>Fuel Level:</div>
-        <div className="stats">-5.0</div>
-      </div>
-      <div className="info">
-        <div>Odometer:</div>
-        <div className="stats">600</div>
-      </div>
-      <div className="info">
-        <div>Location:</div>
-        <div className="stats">Rental Lot</div>
-      </div>
-      <div className="info">
-        <div>Rental Status:</div>
-        <div className="stats">Home</div>
-      </div> */
-}

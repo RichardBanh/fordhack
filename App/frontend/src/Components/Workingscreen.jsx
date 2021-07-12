@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { ListBlk } from "./ListBlk";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Modal } from "./Modal";
 const containerStyle = {
   width: "40vw",
   height: "100vh",
@@ -18,6 +18,7 @@ export const WorkingScreen = () => {
   const dispatch = useDispatch();
   const carlist = useSelector((state) => state.CarList.carlist);
   const locations = useSelector((state) => state.CarLocation.locations);
+  const [openModal, setModal] = useState(false);
   useEffect(() => {
     dispatch({
       type: "GET/LIST/MIDDLEWARE",
@@ -26,7 +27,13 @@ export const WorkingScreen = () => {
   }, []);
 
   const listCars = carlist.map((x, index) => (
-    <ListBlk data={x} index={index} dispatch={dispatch} key={index} />
+    <ListBlk
+      data={x}
+      index={index}
+      dispatch={dispatch}
+      key={index}
+      setModal={setModal}
+    />
   ));
 
   const markers = locations.map((x, index) => (
@@ -36,8 +43,10 @@ export const WorkingScreen = () => {
       position={{ lat: parseFloat(x.latitude), lng: parseFloat(x.longitude) }}
     ></Marker>
   ));
+
   return (
     <>
+      {openModal ? <Modal /> : <div></div>}
       <div className="content">
         <div className="side_left">
           <div className="menubar">
