@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 
 import { useSelector } from "react-redux";
-export const Notification = () => {
+export const Notification = (props) => {
   const message = useSelector((state) => state.NotificationReducer.message);
-  return <div className="modal-content">{message}</div>;
+  return (
+    <div>
+      <button
+        onClick={() => {
+          props.dispatch({ type: "NOTIFICATION/OFF" });
+        }}
+      >
+        Close
+      </button>
+      <div className="modal-content">{message}</div>
+    </div>
+  );
 };

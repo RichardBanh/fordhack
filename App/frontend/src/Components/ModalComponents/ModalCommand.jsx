@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CarDoors from "../../Assets/CarDoors.svg";
 
 import { LineBottom } from "../../Assets/LineBottom";

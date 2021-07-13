@@ -9,6 +9,10 @@ export const notification = (
   dispatch,
   requestType
 ) => {
+  dispatch({
+    type: "NOTIFICATION/ON",
+    payload: { message: "REQUEST SENT, Please wait" },
+  });
   fetchfun(url, method, rawch, raw, auth)
     .then((res) => {
       return res.json();

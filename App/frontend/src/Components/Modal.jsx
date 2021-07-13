@@ -5,6 +5,7 @@ import menu from "../Assets/menu.svg";
 import sliders from "../Assets/sliders.svg";
 import trending from "../Assets/trending.svg";
 import { ModalDetail } from "../../src/Components/ModalComponents/ModalDetail";
+import { Notification } from "./Notification";
 
 import { ModalCommand } from "./ModalComponents/ModalCommand";
 
@@ -12,6 +13,9 @@ export const Modal = (props) => {
   const modalDetail = useSelector((state) => state.ModalData.modalDetail);
   const modalLocation = useSelector((state) => state.CarLocation.locations);
   const [showCommand, setShow] = useState("modalDetail");
+  const notificationShow = useSelector(
+    (state) => state.NotificationReducer.notification
+  );
   let component = <></>;
 
   switch (showCommand) {
@@ -41,6 +45,7 @@ export const Modal = (props) => {
   return (
     <div className="modal">
       <div className="modal-content">
+        {notificationShow ? <Notification dispatch={props.dispatch} /> : <></>}
         <menu>
           <button>
             <img src={bell} />
