@@ -11,20 +11,27 @@ import { ModalCommand } from "./ModalComponents/ModalCommand";
 export const Modal = (props) => {
   const modalDetail = useSelector((state) => state.ModalData.modalDetail);
   const modalLocation = useSelector((state) => state.CarLocation.locations);
-  console.log(modalLocation);
   const [showCommand, setShow] = useState("modalDetail");
   let component = <></>;
 
   switch (showCommand) {
     case "modalDetail":
       component = (
-        <ModalDetail modalDetail={modalDetail} modalLocation={modalLocation} />
+        <ModalDetail
+          modalDetail={modalDetail}
+          modalLocation={modalLocation}
+          dispatch={props.dispatch}
+        />
       );
       break;
 
     case "modalCommand":
       component = (
-        <ModalCommand modalDetail={modalDetail} modalLocation={modalLocation} />
+        <ModalCommand
+          modalDetail={modalDetail}
+          modalLocation={modalLocation}
+          dispatch={props.dispatch}
+        />
       );
       break;
 

@@ -48,7 +48,7 @@ export const WorkingScreen = () => {
 
   return (
     <>
-      {openModal ? <Modal id={id} /> : <div></div>}
+      {openModal ? <Modal id={id} dispatch={dispatch} /> : <div></div>}
       <div className="content">
         <div className="side_left">
           <div className="menubar">

@@ -3,6 +3,7 @@ import CarDoors from "../../Assets/CarDoors.svg";
 
 import { LineBottom } from "../../Assets/LineBottom";
 import { LineTop } from "../../Assets/LineTop";
+import { notification } from "../../NotificationFunction";
 
 const determineCloseDoor = (array) => {
   const closed = array.find(({ value }) => value === "Open");
@@ -33,6 +34,7 @@ export const ModalCommand = (props) => {
   let passRightDoor = "";
   let passLeftBottomDoor = "";
   let passRearRight = "";
+
   if (doorStatus[0].value === "CLOSED") {
     driverDoor = "#c21c03";
   } else {
@@ -53,13 +55,62 @@ export const ModalCommand = (props) => {
   } else {
     passRearRight = "#45F54A";
   }
+
   return (
     <>
       <div className="modal-command-blk">
         <div className="modal-command">
-          <button>Unlock Doors</button>
-          <button>Lock Doors</button>
-          <button>Wake Vehicle Modem</button>
+          <button
+            onClick={() => {
+              const raw = { action: "UNLOCK/VEHICLE", vehicleId: vehicleId };
+              const stringified = JSON.stringify(raw);
+              notification(
+                "http://127.0.0.1:8000/fleetcommand/",
+                "POST",
+                true,
+                stringified,
+                true,
+                props.dispatch,
+                "UNLOCKED"
+              );
+            }}
+          >
+            Unlock Doors
+          </button>
+          <button
+            onClick={() => {
+              const raw = { action: "LOCK/VEHICLE", vehicleId: vehicleId };
+              const stringified = JSON.stringify(raw);
+              notification(
+                "http://127.0.0.1:8000/fleetcommand/",
+                "POST",
+                true,
+                stringified,
+                true,
+                props.dispatch,
+                "UNLOCKED"
+              );
+            }}
+          >
+            Lock Doors
+          </button>
+          <button
+            onClick={() => {
+              const raw = { action: "WAKE/VEHICLE", vehicleId: vehicleId };
+              const stringified = JSON.stringify(raw);
+              notification(
+                "http://127.0.0.1:8000/fleetcommand/",
+                "POST",
+                true,
+                stringified,
+                true,
+                props.dispatch,
+                "UNLOCKED"
+              );
+            }}
+          >
+            Wake Vehicle Modem
+          </button>
           <div>
             <div>Emergency Engine Turn Off</div>
             <input type="text" name="" id="" />

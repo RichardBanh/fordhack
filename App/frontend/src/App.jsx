@@ -8,6 +8,8 @@ import { getVehicleList } from "../src/Redux/Middleware/getListFetch";
 import { CarList } from "../src/Redux/carlistReducer";
 import { CarLocation } from "../src/Redux/locationReducer";
 import { ModalData } from "../src/Redux/modalReducer";
+import { NotificationReducer } from "../src/Redux/notificationReducer";
+
 function App() {
   return (
     <>
@@ -23,6 +25,7 @@ const rootReducer = combineReducers({
   CarList,
   CarLocation,
   ModalData,
+  NotificationReducer,
 });
 
 const middleware = [LoginProcess, getVehicleList];
