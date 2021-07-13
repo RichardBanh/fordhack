@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="118px" height="192px" viewBox="0 0 118 192" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop" transform="translate(-211.000000, -166.000000)" stroke="#090909" stroke-width="2">
+            <g id="Group" transform="translate(212.500000, 167.000000)">
+                <polygon id="Path" points="79.5 0 33 0 9 22 9 173 39 190 74 190 105 173 105 22"></polygon>
+                <line x1="105" y1="55" x2="115" y2="63" id="Path-2"></line>
+                <line x1="9" y1="55" x2="0" y2="63" id="Path-3"></line>
+                <polygon id="Path-4" points="27.5 85 86.5 85 86.5 144.5 27.5 144.5"></polygon>
+                <path d="" id="Path-6"></path>
+                <polyline id="Path-7" points="97 167.5 16 167.5 27.4294479 144.5"></polyline>
+                <polyline id="Path-8" points="14.9 168.5 14.9 57.5 97.9 57.5"></polyline>
+                <line x1="27.5" y1="85" x2="16" y2="57.5" id="Path-9"></line>
+                <line x1="16" y1="119.5" x2="27.5" y2="119.5" id="Path-10"></line>
+                <line x1="86.5" y1="119.5" x2="97" y2="119.5" id="Path-11"></line>
+                <path d="M97.5,56.5 L97.0520463,112.745306 L97,119.280269 L97.5,168.5 M86.5,144.5 L97.5,167.5 M86.5,85 L97,57.5" id="Path-14"></path>
+            </g>
+        </g>
+    </g>
+</svg>

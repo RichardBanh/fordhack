@@ -19,6 +19,7 @@ export const WorkingScreen = () => {
   const carlist = useSelector((state) => state.CarList.carlist);
   const locations = useSelector((state) => state.CarLocation.locations);
   const [openModal, setModal] = useState(false);
+  const [id, setModalId] = useState({});
   useEffect(() => {
     dispatch({
       type: "GET/LIST/MIDDLEWARE",
@@ -33,6 +34,7 @@ export const WorkingScreen = () => {
       dispatch={dispatch}
       key={index}
       setModal={setModal}
+      setModalId={setModalId}
     />
   ));
 
@@ -46,7 +48,7 @@ export const WorkingScreen = () => {
 
   return (
     <>
-      {openModal ? <Modal /> : <div></div>}
+      {openModal ? <Modal id={id} /> : <div></div>}
       <div className="content">
         <div className="side_left">
           <div className="menubar">

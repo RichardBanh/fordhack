@@ -62,7 +62,7 @@ export const ListBlk = (props) => {
       <div className="info">
         <div>Location:</div>
         {coord.longitude !== undefined ? (
-          <Location coord={coord} />
+          <Location coord={coord} id={props.index} dispatch={props.dispatch} />
         ) : (
           <div>Loading</div>
         )}
@@ -75,7 +75,7 @@ export const ListBlk = (props) => {
             className="ren"
             onClick={() => {
               props.setModal(true);
-
+              props.setModalId(props.index);
               props.dispatch({
                 type: "SET/MODAL/DATA/DETAIL",
                 payload: { modalDetail: detailed },
@@ -88,6 +88,7 @@ export const ListBlk = (props) => {
             className="ren"
             onClick={() => {
               props.setModal(true);
+              props.setModalId(props.index);
             }}
           >
             Rental
@@ -96,6 +97,7 @@ export const ListBlk = (props) => {
             className="req"
             onClick={() => {
               props.setModal(true);
+              props.setModalId(props.index);
             }}
           >
             Request
@@ -104,6 +106,7 @@ export const ListBlk = (props) => {
             className="req"
             onClick={() => {
               props.setModal(true);
+              props.setModalId(props.index);
             }}
           >
             Notifications

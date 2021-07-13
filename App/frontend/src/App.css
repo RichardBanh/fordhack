@@ -3,6 +3,11 @@
   src: url(./Assets/Fonts/OpenSans-Regular.ttf);
 }
 
+@font-face {
+  font-family: "Open-Sans-bold";
+  src: url(./Assets/Fonts/OpenSans-SemiBold.ttf);
+}
+
 body {
   height: 100vh;
   width: 100vw;
@@ -143,21 +148,22 @@ body {
   left: 0;
   top: 0;
   width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
+  height: 100%; /* Full height */ /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
   width: 50%;
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-direction: column;
 }
 
@@ -188,4 +194,80 @@ menu {
 .info-blk {
   display: flex;
   flex-direction: row;
+}
+.detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.detail .stats {
+  margin-bottom: 20px;
+  font-family: Open-Sans-bold;
+  font-size: 13px;
+}
+
+.detail .title {
+  text-decoration: underline;
+}
+
+.modal-command button {
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.473);
+  border-radius: 5px;
+  padding-top: 3px;
+  margin: 3px;
+}
+
+.modal-command button:hover {
+  background-color: rgb(240, 239, 239);
+}
+.modal-command button:active {
+  background-color: rgb(201, 201, 201);
+}
+
+.modal-command-blk {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.modal-command-info {
+  margin-left: 20px;
+}
+
+.car {
+  display: flex;
+}
+
+.car .left {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  padding-right: 0;
+  margin-right: -11px;
+}
+
+.left:first-child {
+  margin-top: 48px;
+}
+
+.secondLine {
+  margin-top: 3px;
+}
+
+.rightside {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  padding-left: 0;
+  margin-left: -12px;
+  margin-top: -15px;
+}
+
+.rightsid {
+  margin-top: 60px;
 }
