@@ -3,6 +3,17 @@ import CarDoors from "../../Assets/CarDoors.svg";
 
 import { LineBottom } from "../../Assets/LineBottom";
 import { LineTop } from "../../Assets/LineTop";
+
+const determineCloseDoor = (array) => {
+  const closed = array.find(({ value }) => value === "Open");
+
+  if (closed === undefined) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 export const ModalCommand = (props) => {
   const { vehicleId, modemEnabled } = props.modalDetail;
 
@@ -14,8 +25,34 @@ export const ModalCommand = (props) => {
     firmwareUpgradeInProgress,
   } = props.modalDetail.vehicleStatus;
 
-  console.log(ignitionStatus);
-  const color = "#c21c03";
+  const { speed, direction } = props.modalLocation[0];
+
+  const open = determineCloseDoor(doorStatus);
+
+  let driverDoor = "";
+  let passRightDoor = "";
+  let passLeftBottomDoor = "";
+  let passRearRight = "";
+  if (doorStatus[0].value === "CLOSED") {
+    driverDoor = "#c21c03";
+  } else {
+    driverDoor = "#45F54A";
+  }
+  if (doorStatus[1].value === "CLOSED") {
+    passRightDoor = "#c21c03";
+  } else {
+    passRightDoor = "#45F54A";
+  }
+  if (doorStatus[3].value === "CLOSED") {
+    passLeftBottomDoor = "#c21c03";
+  } else {
+    passLeftBottomDoor = "#45F54A";
+  }
+  if (doorStatus[4].value === "CLOSED") {
+    passRearRight = "#c21c03";
+  } else {
+    passRearRight = "#45F54A";
+  }
   return (
     <>
       <div className="modal-command-blk">
@@ -40,20 +77,25 @@ export const ModalCommand = (props) => {
           </div>
         </div>
         <div className="modal-command-info">
-          <div>
+          <div className="doors">
             <div>Doors</div>
-            <div>Open</div>
+            <div>
+              {open ? (
+                <div className="command-open">Open</div>
+              ) : (
+                <div className="command-closed">Closed</div>
+              )}
+            </div>
           </div>
           <div className="car">
             <div className="left">
-              <LineTop color={color} />
-              <LineBottom color={color} />
+              <LineTop color={driverDoor} />
+              <LineBottom color={passLeftBottomDoor} />
             </div>
-
-            <img src={CarDoors} alt="" />
+            <img src={CarDoors} alt="" className="command-car-diagram" />
             <div className="rightside">
-              <LineTop class="rightsid" color={color} />
-              <LineBottom color={color} />
+              <LineTop class="rightsid" color={passRightDoor} />
+              <LineBottom color={passRearRight} />
             </div>
           </div>
           <div>Vehicle Status</div>
@@ -64,8 +106,12 @@ export const ModalCommand = (props) => {
             <br />
             Tire Pressure Warning: {"" + tirePressureWarning}
           </div>
-          <div>Location</div>
-          <div>Vehicle Modem: {"" + modemEnabled}</div>
+          <div>
+            Location: {props.modalLocation[0].googleLocation.formatted_address}
+          </div>
+          <div>Speed: {speed}</div>
+          <div>Direction: {direction}</div>
+          <div>Vehicle Modem Connected: {"" + modemEnabled}</div>
         </div>
       </div>
     </>

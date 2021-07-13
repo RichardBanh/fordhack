@@ -243,14 +243,13 @@ menu {
   display: flex;
   align-items: flex-end;
   flex-direction: column;
-  justify-content: space-between;
   padding: 20px;
   padding-right: 0;
   margin-right: -11px;
 }
 
 .left:first-child {
-  margin-top: 48px;
+  margin-top: 53px;
 }
 
 .secondLine {
@@ -261,7 +260,6 @@ menu {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  justify-content: space-between;
   padding: 20px;
   padding-left: 0;
   margin-left: -12px;
@@ -269,5 +267,24 @@ menu {
 }
 
 .rightsid {
-  margin-top: 60px;
+  margin-top: 68px;
+}
+
+.command-open {
+  color: green;
+}
+
+.command-closed {
+  color: red;
+}
+
+.doors {
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+}
+
+.command-car-diagram {
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
