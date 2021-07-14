@@ -23,7 +23,7 @@ class UsersSerializer(serializers.ModelSerializer):
             'is_superuser',
             'is_active'
         )
-        extra_kwargs = {'password': {'write_only': True},'is_staff': {'write_only': True},'is_admin': {'write_only': True},'is_superuser': {'write_only': True}}
+        extra_kwargs = {'password': {'write_only': True},}
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -36,3 +36,4 @@ class UsersSerializer(serializers.ModelSerializer):
 
 
 
+# 'is_staff': {'write_only': True},'is_admin': {'write_only': True},'is_superuser': {'write_only': True}}

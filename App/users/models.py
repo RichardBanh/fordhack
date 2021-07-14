@@ -9,8 +9,8 @@ def hex_uuid():
     return uuid.uuid4().hex
 
 class CustomAccountManager(BaseUserManager):
-    def create_user(self, email, username, uuid, phone_number, registration_date, is_staff, password,  **other_fields):
-        user = self.model(email=email, username=username, uuid=uuid, phone_number=phone_number, registration_date=registration_date, is_staff=is_staff)
+    def create_user(self, email, username, uuid, phone_number, registration_date, password,  **other_fields):
+        user = self.model(email=email, username=username, uuid=uuid, phone_number=phone_number, registration_date=registration_date)
         user.set_password(password)
         user.save()
         return user
@@ -35,8 +35,8 @@ class Users(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=50, null=True)
     registration_date = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
     objects = CustomAccountManager()

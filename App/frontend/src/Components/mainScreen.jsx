@@ -10,7 +10,7 @@ export const Main = () => {
 
   return (
     <Router>
-      {loggedinPass || typeof Cookies.get("jwt") !== "undefined" ? (
+      {typeof Cookies.get("jwt") !== "undefined" ? (
         <WorkingScreen />
       ) : (
         <Login />

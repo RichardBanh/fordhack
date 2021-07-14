@@ -173,7 +173,33 @@ export const ModalCommand = (props) => {
               placeholder="Confirm Vehicle ID"
               onChange={(e) => setconfVehicleID_ok(e.target.value)}
             />
-            <button>Ok Engine Turn Off</button>
+            <button
+              onClick={() => {
+                if (confVehicleID_ok === vehicleId) {
+                  const raw = {
+                    action: "OK/VEHICLE/SHUTTOFF/PROP",
+                    vehicleId: vehicleId,
+                  };
+                  const stringified = JSON.stringify(raw);
+                  engineTurnNotifiction(
+                    "http://127.0.0.1:8000/fleetcommand/",
+                    "POST",
+                    true,
+                    stringified,
+                    true,
+                    props.dispatch,
+                    "OK/VEHICLE/SHUTTOFF/PROP"
+                  );
+                } else {
+                  props.dispatch({
+                    type: "NOTIFICATION/ON",
+                    payload: { message: "Vehicle ID submitted does not match" },
+                  });
+                }
+              }}
+            >
+              Ok Engine Turn Off
+            </button>
           </div>
         </div>
         <div className="modal-command-info">

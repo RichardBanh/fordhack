@@ -24,24 +24,25 @@ class FleetCommand(APIView):
     def post(self, request):
         action = request.data["action"]
         vehicleId = request.data["vehicleId"]
-
+        print(request.user.is_staff, "staff")
+        print(request.user.is_admin, "admin")
         if action == "ADD/VEHICLE/SHUTTOFF/PROP":
             obj = self.findExistProp(vehicleId, action)
             if obj["exist"] == True:
                 ok_bySuper = obj["Org_obj"]["ok_bySuper"]
                 ok_byCustRep = obj["Org_obj"]["ok_byCustRep"]
-                return Response("Already created, Ok recieved from Customer rep: "+ str(ok_byCustRep) + ". Ok recieved from supervisor: " + str(ok_bySuper), status=status.HTTP_400_BAD_REQUEST)
+                return Response("Already created, Ok recieved from Customer rep: "+ str(ok_byCustRep) + ". Ok recieved from supervisor: " + str(ok_bySuper), status=status.HTTP_208_ALREADY_REPORTED)
             else:
                 if request.user.is_staff:
                     objEntry = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action, "active_Req":True }
                     newRequest = FleetCommandModel(**objEntry)
                     newRequest.save()
-                    return Response(newRequest, status=status.HTTP_201_CREATED)
+                    return Response("Created by staff", status=status.HTTP_201_CREATED)
                 elif request.user.is_admin:
                     objEntry = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action, "active_Req":True}
                     newRequest = FleetCommandModel(**objEntry)
                     newRequest.save()
-                    return Response(newRequest, status=status.HTTP_201_CREATED)
+                    return Response("Created by admin", status=status.HTTP_201_CREATED)
         
         elif action == "OK/VEHICLE/SHUTTOFF/PROP":
             obj = self.findExistProp(vehicleId, "ADD/VEHICLE/SHUTTOFF/PROP")
@@ -55,6 +56,7 @@ class FleetCommand(APIView):
                     user = Users.objects.get(id=dataObj["CustRep_Ok"])
                     userinfo = UsersSerializer(user).data
                     if dataObj["ok_byCustRep"]:
+                        print("ok by cust rep")
                         return Response("Already approved by another customer rep:" + userinfo["username"], status=status.HTTP_208_ALREADY_REPORTED)
                     else:
                         if dataObj["ok_bySuper"]:

@@ -4,6 +4,8 @@ import { ListBlk } from "./ListBlk";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "./Modal";
 import { fetchfun } from "../FetchFunction";
+import Cookies from "js-cookie";
+
 const containerStyle = {
   width: "40vw",
   height: "100vh",
@@ -57,7 +59,14 @@ export const WorkingScreen = () => {
             <div className="accountType">Account Class: Admin</div>
             <div>Settings</div>
             <div>Security Console</div>
-            <div>Log Out</div>
+            <div
+              onClick={() => {
+                Cookies.remove("jwt");
+                window.location.reload();
+              }}
+            >
+              Log Out
+            </div>
           </div>
           {carlist.length > 0 ? listCars : <div>Loading</div>}
           <button

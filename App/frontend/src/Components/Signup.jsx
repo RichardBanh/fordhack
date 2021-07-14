@@ -49,6 +49,7 @@ export const Signup = (props) => {
           <select
             name="Account_Type"
             id="Account_Type"
+            value={account}
             onChange={(e) => {
               setAccount(e.target.value);
             }}
@@ -71,6 +72,7 @@ export const Signup = (props) => {
                 email: email,
                 phone_number: phone,
               };
+              console.log(account);
               if (account === "staff") {
                 raw.is_staff = true;
               } else {
