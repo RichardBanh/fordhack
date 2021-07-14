@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'fleetCommand',
     'fleetLocation',
     'systemFordK',
+    'carrental'
 ]
 
 MIDDLEWARE = [

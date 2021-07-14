@@ -5,7 +5,6 @@ from .models import FleetCommandModel
 from .serializer import FordUptoDateSerializer
 from users.models import Users
 from users.serializers import UsersSerializer
-
 from request import Request
 
 

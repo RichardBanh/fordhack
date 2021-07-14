@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class RentalConfig(AppConfig):
+class CarrentalConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'rental'
+    name = 'carrental'
