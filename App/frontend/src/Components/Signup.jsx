@@ -6,7 +6,7 @@ export const Signup = (props) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [pass, setPass] = useState("");
-  const [account, setAccount] = useState("");
+  const [account, setAccount] = useState("staff");
   return (
     <>
       <div className="loginWrapper signup">
@@ -78,6 +78,7 @@ export const Signup = (props) => {
               } else {
                 raw.is_admin = true;
               }
+              console.log(raw);
               props.setSign(false);
               fetchfun(
                 "http://127.0.0.1:8000/create/",

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { fetchfun } from "../FetchFunction";
 import { loginFetch } from "../Redux/Middleware/loginFetch";
 import { Signup } from "./Signup";
-export const Login = () => {
+import { storeCookieJWT } from "../CookieFunctions/Cookie";
+export const Login = (props) => {
   const dispatch = useDispatch();
   const [userName, setUsername] = useState("");
   const [password, setPass] = useState("");
@@ -32,16 +34,32 @@ export const Login = () => {
             />
             <button
               onClick={(e) => {
+                const raw = { username: userName, password: password };
                 e.preventDefault();
-                dispatch({
-                  type: "LOGIN/MIDDLEWARE",
-                  payload: {
-                    url: "http://127.0.0.1:8000/token/",
-                    username: userName,
-                    password: password,
-                    method: "POST",
-                  },
-                });
+                fetchfun(
+                  "http://127.0.0.1:8000/token/",
+                  "POST",
+                  true,
+                  JSON.stringify(raw),
+                  false
+                )
+                  .then((res) => res.json())
+                  .then((res) => {
+                    props.setJwt(res.access);
+                    console.log(res);
+                    storeCookieJWT("refresh", "jwt", res);
+                  })
+                  .catch((res) => {
+                    console.log(res);
+                  });
+                // dispatch({
+                //   type: "LOGIN/MIDDLEWARE",
+                //   payload: {
+                //     url: "http://127.0.0.1:8000/token/",
+
+                //     method: "POST",
+                //   },
+                // });
               }}
             >
               Login

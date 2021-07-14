@@ -11,13 +11,12 @@ const containerStyle = {
   height: "100vh",
 };
 
-//user settings home profile
 const center = {
   lat: 42.3,
   lng: -83.205,
 };
 
-export const WorkingScreen = () => {
+export const WorkingScreen = (props) => {
   const dispatch = useDispatch();
   const carlist = useSelector((state) => state.CarList.carlist);
   const locations = useSelector((state) => state.CarLocation.locations);
@@ -26,7 +25,11 @@ export const WorkingScreen = () => {
   useEffect(() => {
     dispatch({
       type: "GET/LIST/MIDDLEWARE",
-      payload: { url: "http://127.0.0.1:8000/carlist/", method: "POST" },
+      payload: {
+        url: "http://127.0.0.1:8000/carlist/",
+        method: "POST",
+        jwt: props.jwt,
+      },
     });
   }, []);
 

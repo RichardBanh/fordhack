@@ -17,6 +17,7 @@ const LoginProcess = (storeAPI) => (next) => (action) => {
     fetch
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         storeCookieJWT("refresh", "jwt", result);
         storeAPI.dispatch({
           type: "SET/SIGNIN",
