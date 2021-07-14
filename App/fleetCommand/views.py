@@ -20,10 +20,6 @@ class FleetCommand(APIView):
             return {"exist":exist, "Org_obj":dict(OrigData.data[0]), "obj":Org_obj}
         else:
             return {"exist":False}
-    
-    def getOneCommand(self, uuid):
-        Org_obj = FleetCommandModel.objects.get(uuid=uuid)
-        return Org_obj
             
     def post(self, request):
         action = request.data["action"]
@@ -81,7 +77,7 @@ class FleetCommand(APIView):
                         req = Request()
                         result = req.requestFleetCommandPost(vehicleId, "/stopEngine")
                         if result["success"]:
-                            obj_to_be_updated = self.getOneCommand(uuid=dataObj["uuid"])
+                            obj_to_be_updated = FleetCommandModel.objects.get(uuid=dataObj["uuid"])
                             obj_to_be_updated.ok_bySuper = True
                             obj_to_be_updated.Super_Ok = request.user
                             obj_to_be_updated.active_Req = False
@@ -141,7 +137,7 @@ class FleetCommand(APIView):
                     req = Request()
                     result = req.requestFleetCommandPost(vehicleId, "/lock")
                     if result["success"]:
-                        obj = FleetCommandModel.objects.get(vehicleId=vehicleId, active_Req=True,req=action )
+                        obj = FleetCommandModel.objects.get(vehicleId=vehicleId, active_Req=True, req=action)
                         obj.active_Req=False
                         obj.save()
                         return Response(result, status=status.HTTP_200_OK)
