@@ -16,8 +16,8 @@ export const Modal = (props) => {
   const notificationShow = useSelector(
     (state) => state.NotificationReducer.notification
   );
-  let component = <></>;
 
+  let component = <></>;
   switch (showCommand) {
     case "modalDetail":
       component = (
@@ -45,7 +45,6 @@ export const Modal = (props) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        {notificationShow ? <Notification dispatch={props.dispatch} /> : <></>}
         <menu>
           <button>
             <img src={bell} />
@@ -60,7 +59,7 @@ export const Modal = (props) => {
             <img src={trending} />
           </button>
         </menu>
-
+        {notificationShow ? <Notification dispatch={props.dispatch} /> : <></>}
         {modalDetail === null || modalDetail === undefined ? (
           <div>Loading</div>
         ) : (

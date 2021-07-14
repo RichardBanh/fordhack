@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { fetchfun } from "../FetchFunction";
 
 export const Signup = (props) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [pass, setPass] = useState("");
+  const [account, setAccount] = useState("");
   return (
     <>
       <div className="loginWrapper signup">
@@ -44,7 +46,13 @@ export const Signup = (props) => {
             }}
           />
           <div>Account Type</div>
-          <select name="Account_Type" id="Account_Type">
+          <select
+            name="Account_Type"
+            id="Account_Type"
+            onChange={(e) => {
+              setAccount(e.target.value);
+            }}
+          >
             <option value="staff">Staff</option>
             <option value="admin">Admin</option>
           </select>
@@ -57,7 +65,27 @@ export const Signup = (props) => {
           </button>
           <button
             onClick={(e) => {
+              const raw = {
+                username: username,
+                password: pass,
+                email: email,
+                phone_number: phone,
+              };
+              if (account === "staff") {
+                raw.is_staff = true;
+              } else {
+                raw.is_admin = true;
+              }
               props.setSign(false);
+              fetchfun(
+                "http://127.0.0.1:8000/create/",
+                "POST",
+                true,
+                JSON.stringify(raw),
+                false
+              )
+                .then((res) => res.json())
+                .then((res) => console.log(res));
             }}
           >
             Submit

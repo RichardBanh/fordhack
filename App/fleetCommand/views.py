@@ -32,20 +32,22 @@ class FleetCommand(APIView):
                 return Response("Already created, Ok recieved from Customer rep: "+ str(ok_byCustRep) + ". Ok recieved from supervisor: " + str(ok_bySuper), status=status.HTTP_400_BAD_REQUEST)
             else:
                 if request.user.is_staff:
-                    objEntry = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action }
+                    objEntry = {"vehicleId":vehicleId, "ok_byCustRep":True, "CustRep_Ok":request.user, "initiated_byWho":request.user, "req": action, "active_Req":True }
                     newRequest = FleetCommandModel(**objEntry)
                     newRequest.save()
                     return Response("It works", status=status.HTTP_201_CREATED)
                 elif request.user.is_admin:
-                    objEntry = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action}
+                    objEntry = {"vehicleId":vehicleId, "ok_bySuper":True, "Super_Ok":request.user, "initiated_byWho":request.user, "req": action, "active_Req":True}
                     newRequest = FleetCommandModel(**objEntry)
                     newRequest.save()
                     return Response("It works", status=status.HTTP_201_CREATED)
         
         elif action == "OK/VEHICLE/SHUTTOFF/PROP":
             obj = self.findExistProp(vehicleId, action)
-            dataObj = obj["obj"]
+            print(obj)
+            
             if obj["exist"] == True:
+                dataObj = obj["obj"]
                 if request.user.is_staff:
                     if dataObj["ok_byCustRep"]:
                         return Response("Already approved by another customer rep:" + str(dataObj["CustRep_Ok"]["username"]), status=status.HTTP_208_ALREADY_REPORTED)

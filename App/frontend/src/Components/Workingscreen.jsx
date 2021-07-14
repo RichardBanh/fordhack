@@ -3,6 +3,7 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { ListBlk } from "./ListBlk";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "./Modal";
+import { fetchfun } from "../FetchFunction";
 const containerStyle = {
   width: "40vw",
   height: "100vh",
@@ -59,6 +60,32 @@ export const WorkingScreen = () => {
             <div>Log Out</div>
           </div>
           {carlist.length > 0 ? listCars : <div>Loading</div>}
+          <button
+            onClick={() => {
+              fetchfun(
+                "http://127.0.0.1:8000/getvehicles/",
+                "POST",
+                false,
+                null,
+                true
+              )
+                .then((res) => {
+                  res.json();
+                })
+                .then((res) => {
+                  dispatch({
+                    type: "GET/LIST/MIDDLEWARE",
+                    payload: {
+                      url: "http://127.0.0.1:8000/carlist/",
+                      method: "POST",
+                    },
+                  });
+                  console.log(res);
+                });
+            }}
+          >
+            Car Added on Ford Pass
+          </button>
         </div>
         <div className="side_right">
           <LoadScript googleMapsApiKey="AIzaSyDjmq8FIkvICMQwQIVlx2pzZ_IbY-tBeG0">
