@@ -198,7 +198,7 @@ export const ModalCommand = (props) => {
                 }
               }}
             >
-              Ok Engine Turn Off
+              Approve Engine Turn Off
             </button>
           </div>
         </div>
