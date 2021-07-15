@@ -15,7 +15,7 @@ class RentalModel(models.Model):
     req_date = models.DateTimeField(auto_now_add=True, editable=False)
     user_who_added = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, on_delete=models.DO_NOTHING, related_name="user_who_added")
     rental_length_days = models.CharField(max_length=4, blank=False, editable=True)
-    rental_by_phone = models.CharField(max_length=10, blank=False, editable=False)
+    rental_by_phone = models.CharField(max_length=10, blank=False, editable=True)
     rental_mile_limits = models.CharField(max_length=6, blank=False, editable=True)
 
     def __str__(self):
