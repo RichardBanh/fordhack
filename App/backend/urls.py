@@ -8,6 +8,7 @@ from fleetCommand import views as fleetcommand_views
 from fleetLocation import views as fleetlocation_views
 from veh import views as vehicle_views
 from carrental import views as rent_views
+from notification import views as notification_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -17,5 +18,6 @@ urlpatterns = [
     path('fleetcommand/', fleetcommand_views.FleetCommand.as_view()),
     path('carlist/', vehicle_views.CarsList.as_view()),
     path('fleetlocation/', fleetlocation_views.CarLocation.as_view()),
-    path('rent/', rent_views.Rental.as_view())
+    path('rent/', rent_views.Rental.as_view()),
+    path('notifcations/', notification_views.Notification.as_view())
 ]
