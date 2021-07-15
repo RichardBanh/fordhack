@@ -23,8 +23,6 @@ class FleetCommand(APIView):
     def post(self, request):
         action = request.data["action"]
         vehicleId = request.data["vehicleId"]
-        print(request.user.is_staff, "staff")
-        print(request.user.is_admin, "admin")
         if action == "ADD/VEHICLE/SHUTTOFF/PROP":
             obj = self.findExistProp(vehicleId, action)
             if obj["exist"] == True:
