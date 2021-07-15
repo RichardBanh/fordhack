@@ -33,6 +33,8 @@ export const WorkingScreen = (props) => {
     });
   }, []);
 
+  console.log(carlist);
+
   const listCars = carlist.map((x, index) => (
     <ListBlk
       data={x}

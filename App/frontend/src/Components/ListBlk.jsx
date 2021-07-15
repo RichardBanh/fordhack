@@ -24,6 +24,7 @@ export const ListBlk = (props) => {
       .then((response) => {
         setCoord(response.vehicle.vehicleLocation);
         setDetailed(response.vehicle);
+        console.log(response);
         response.vehicle.vehicleLocation.id = props.index;
         props.dispatch({
           type: "SET/CARLIST/LOCATION",
