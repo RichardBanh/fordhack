@@ -310,3 +310,47 @@ input:valid + span:after {
   padding-left: 5px;
   color: #009000;
 }
+
+.logo {
+  width: 90px;
+  height: 40px;
+}
+
+.settings {
+  background-color: rgb(0, 0, 0);
+  padding: 6px;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+}
+
+.logout {
+  background-color: rgb(0, 68, 196);
+  padding: 6px;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+}
+
+.settings:hover {
+  background-color: rgba(0, 0, 0, 0.644);
+  cursor: pointer;
+}
+
+.logout:hover {
+  cursor: pointer;
+  background-color: rgba(0, 69, 196, 0.685);
+}
+
+.notif {
+  width: 600px;
+}
+
+.notification {
+  background-color: rgb(8, 57, 148);
+  color: rgb(255, 255, 255);
+  border: none;
+}
+
+menu {
+  display: flex;
+  justify-content: space-between;
+}

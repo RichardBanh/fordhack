@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "./Modal";
 import { fetchfun } from "../FetchFunction";
 import Cookies from "js-cookie";
+import logo from "../Assets/logo.png";
 
 const containerStyle = {
   width: "40vw",
@@ -56,15 +57,20 @@ export const WorkingScreen = (props) => {
 
   return (
     <>
-      {openModal ? <Modal id={id} dispatch={dispatch} /> : <div></div>}
+      {openModal ? (
+        <Modal id={id} dispatch={dispatch} setModal={setModal} />
+      ) : (
+        <div></div>
+      )}
       <div className="content">
         <div className="side_left">
           <div className="menubar">
-            <div>Logo</div>
-            <div className="accountType">Account Class: Admin</div>
-            <div>Settings</div>
-            <div>Security Console</div>
+            <img className="logo" src={logo} />
+            <div className="accountType">Administrator Account</div>
+            <div className="settings">Settings</div>
+            <div className="settings">Security</div>
             <div
+              className="logout"
               onClick={() => {
                 Cookies.remove("jwt");
                 window.location.reload();

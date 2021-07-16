@@ -10,6 +10,7 @@ import { Notification } from "./Notification";
 import { ModalCommand } from "./ModalComponents/ModalCommand";
 import { ModalRental } from "./ModalComponents/ModalRental";
 import { Alert } from "./ModalComponents/Alerts";
+import x from "../Assets/x.svg";
 export const Modal = (props) => {
   const modalDetail = useSelector((state) => state.ModalData.modalDetail);
   const modalLocation = useSelector((state) => state.CarLocation.locations);
@@ -49,38 +50,47 @@ export const Modal = (props) => {
     <div className="modal">
       <div className="modal-content">
         <menu>
-          <button>
-            <img src={bell} />
-          </button>
+          <div>
+            <button>
+              <img src={bell} />
+            </button>
+            <button
+              onClick={() => {
+                props.dispatch({
+                  type: "SET/MODAL/SHOW",
+                  payload: { showWhat: "modalDetail" },
+                });
+              }}
+            >
+              <img src={menu} />
+            </button>
+            <button
+              onClick={() => {
+                props.dispatch({
+                  type: "SET/MODAL/SHOW",
+                  payload: { showWhat: "modalCommand" },
+                });
+              }}
+            >
+              <img src={sliders} />
+            </button>
+            <button
+              onClick={() => {
+                props.dispatch({
+                  type: "SET/MODAL/SHOW",
+                  payload: { showWhat: "modalRental" },
+                });
+              }}
+            >
+              <img src={trending} />
+            </button>
+          </div>
           <button
             onClick={() => {
-              props.dispatch({
-                type: "SET/MODAL/SHOW",
-                payload: { showWhat: "modalDetail" },
-              });
+              props.setModal(false);
             }}
           >
-            <img src={menu} />
-          </button>
-          <button
-            onClick={() => {
-              props.dispatch({
-                type: "SET/MODAL/SHOW",
-                payload: { showWhat: "modalCommand" },
-              });
-            }}
-          >
-            <img src={sliders} />
-          </button>
-          <button
-            onClick={() => {
-              props.dispatch({
-                type: "SET/MODAL/SHOW",
-                payload: { showWhat: "modalRental" },
-              });
-            }}
-          >
-            <img src={trending} />
+            <img src={x} />
           </button>
         </menu>
         {notificationShow ? <Notification dispatch={props.dispatch} /> : <></>}
