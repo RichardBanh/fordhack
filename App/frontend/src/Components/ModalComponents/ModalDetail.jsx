@@ -15,7 +15,7 @@ export const ModalDetail = (props) => {
 
   const { batteryChargeLevel, fuelLevel, mileage, odometer } =
     props.modalDetail.vehicleDetails;
-  console.log(props.modalDetail);
+
   return (
     <>
       <div className="detail">

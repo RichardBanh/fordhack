@@ -7,6 +7,7 @@ import {
   notification,
   engineTurnNotifiction,
 } from "../../NotificationFunction";
+import { useDispatch } from "react-redux";
 
 const determineCloseDoor = (array) => {
   const closed = array.find(({ value }) => value === "Open");
@@ -22,7 +23,7 @@ export const ModalCommand = (props) => {
   const [supPhone, setPhone] = useState("");
   const [confVehicleID_req, setconfVehicleID_req] = useState("");
   const [confVehicleID_ok, setconfVehicleID_ok] = useState("");
-
+  const dispatch = useDispatch();
   const {
     ignitionStatus,
     remoteStartStatus,
@@ -75,7 +76,7 @@ export const ModalCommand = (props) => {
                 true,
                 stringified,
                 true,
-                props.dispatch,
+                dispatch,
                 "UNLOCKED"
               );
             }}
@@ -92,7 +93,7 @@ export const ModalCommand = (props) => {
                 true,
                 stringified,
                 true,
-                props.dispatch,
+                dispatch,
                 "LOCKED"
               );
             }}
@@ -109,7 +110,7 @@ export const ModalCommand = (props) => {
                 true,
                 stringified,
                 true,
-                props.dispatch,
+                dispatch,
                 "MODEM AWAKE"
               );
             }}
@@ -139,7 +140,7 @@ export const ModalCommand = (props) => {
                     true,
                     stringified,
                     true,
-                    props.dispatch,
+                    dispatch,
                     "ADD/VEHICLE/SHUTTOFF/PROP"
                   );
                 } else {
@@ -187,11 +188,11 @@ export const ModalCommand = (props) => {
                     true,
                     stringified,
                     true,
-                    props.dispatch,
+                    dispatch,
                     "OK/VEHICLE/SHUTTOFF/PROP"
                   );
                 } else {
-                  props.dispatch({
+                  dispatch({
                     type: "NOTIFICATION/ON",
                     payload: { message: "Vehicle ID submitted does not match" },
                   });

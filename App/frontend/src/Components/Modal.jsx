@@ -23,26 +23,18 @@ export const Modal = (props) => {
   switch (showModal) {
     case "modalDetail":
       component = (
-        <ModalDetail
-          modalDetail={modalDetail}
-          modalLocation={modalLocation}
-          dispatch={props.dispatch}
-        />
+        <ModalDetail modalDetail={modalDetail} modalLocation={modalLocation} />
       );
       break;
 
     case "modalCommand":
       component = (
-        <ModalCommand
-          modalDetail={modalDetail}
-          modalLocation={modalLocation}
-          dispatch={props.dispatch}
-        />
+        <ModalCommand modalDetail={modalDetail} modalLocation={modalLocation} />
       );
       break;
 
     case "modalRental":
-      component = <ModalRental dispatch={props.dispatch} />;
+      component = <ModalRental vehicleId={modalDetail.vehicleId} />;
       break;
 
     default:

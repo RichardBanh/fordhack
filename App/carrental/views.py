@@ -21,12 +21,10 @@ class Rental(APIView):
             return {"exist":False}
 
     def post(self, request):
+        print(request)
         try:
             vehicleId = request.data["vehicleId"]
             obj = self.findExistRental(vehicleId=vehicleId)
-            # print(vehicleId)
-            # print(obj["exist"])
-            # print(obj["Org_obj"])
             if obj["exist"] == False:
                 objEntry = {"vehicleId":request.data["vehicleId"], "rental_length_days":request.data["rental_length_days"],"rental_by_phone": request.data["rental_by_phone"],"rental_mile_limits":request.data["rental_mile_limits"], "user_who_added":request.user}
                 rental = RentalModel(**objEntry)
@@ -64,10 +62,19 @@ class Rental(APIView):
         except:
             return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)
             
-    def get(self, request):
+    def get(self, request, vehicleD):
         try:
-            rentals = RentalModel.objects.filter(active_Rent=True)
-            serializer = CarRentalSerializer(rentals, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            print(vehicleD)
+            if vehicleD == 'all':
+                rentals = RentalModel.objects.filter(active_Rent=True)
+                serializer = CarRentalSerializer(rentals, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                try :
+                    rentals = RentalModel.objects.get(active_Rent=True, vehicleId=vehicleD )
+                    serializer = CarRentalSerializer(rentals)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                except rentals.DoesNotExist: 
+                    return Response({"active_Rent": False}, status=status.HTTP_200_OK)
         except:
             return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)

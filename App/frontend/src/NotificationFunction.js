@@ -18,16 +18,24 @@ export const notification = (
       return res.json();
     })
     .then((response) => {
-      if (response.request.commandStatus === "COMPLETED") {
+      console.log(response);
+      if (typeof response === "string") {
         dispatch({
           type: "NOTIFICATION/ON",
-          payload: { message: actionReq },
+          payload: { message: response },
         });
       } else {
-        dispatch({
-          type: "NOTIFICATION/ON",
-          payload: { message: "Ford Request Failed, Please resubmit!" },
-        });
+        if (response.request.commandStatus === "COMPLETED") {
+          dispatch({
+            type: "NOTIFICATION/ON",
+            payload: { message: actionReq },
+          });
+        } else {
+          dispatch({
+            type: "NOTIFICATION/ON",
+            payload: { message: "Ford Request Failed" },
+          });
+        }
       }
     });
 };

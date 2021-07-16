@@ -19,5 +19,6 @@ urlpatterns = [
     path('carlist/', vehicle_views.CarsList.as_view()),
     path('fleetlocation/', fleetlocation_views.CarLocation.as_view()),
     path('rent/', rent_views.Rental.as_view()),
+    path('rent/<str:vehicleD>/', rent_views.Rental.as_view()),
     path('notifcations/', notification_views.Notification.as_view())
 ]
