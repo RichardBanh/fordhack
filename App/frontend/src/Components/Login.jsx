@@ -4,6 +4,8 @@ import { fetchfun } from "../FetchFunction";
 import { loginFetch } from "../Redux/Middleware/loginFetch";
 import { Signup } from "./Signup";
 import { storeCookieJWT } from "../CookieFunctions/Cookie";
+import logo from "../Assets/logo.png";
+
 export const Login = (props) => {
   const dispatch = useDispatch();
   const [userName, setUsername] = useState("");
@@ -34,6 +36,7 @@ export const Login = (props) => {
       ) : (
         <div className="loginWrapper">
           <form className="loginForm">
+            <img className="logo loginform" src={logo} />
             <div>Username</div>
             <input
               type="text"
