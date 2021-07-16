@@ -33,6 +33,13 @@ export const ListBlk = (props) => {
       });
   }, []);
 
+  const dataDispatch = () => {
+    props.dispatch({
+      type: "SET/MODAL/DATA/DETAIL",
+      payload: { modalDetail: detailed },
+    });
+  };
+
   return (
     <div className="rec_blk">
       <img className="image_sq" src={response} />
@@ -77,9 +84,10 @@ export const ListBlk = (props) => {
             onClick={() => {
               props.setModal(true);
               props.setModalId(props.index);
+              dataDispatch();
               props.dispatch({
-                type: "SET/MODAL/DATA/DETAIL",
-                payload: { modalDetail: detailed },
+                type: "SET/MODAL/SHOW",
+                payload: { showWhat: "modalDetail" },
               });
             }}
           >
@@ -90,6 +98,11 @@ export const ListBlk = (props) => {
             onClick={() => {
               props.setModal(true);
               props.setModalId(props.index);
+              dataDispatch();
+              props.dispatch({
+                type: "SET/MODAL/SHOW",
+                payload: { showWhat: "modalRental" },
+              });
             }}
           >
             Rental
@@ -99,6 +112,11 @@ export const ListBlk = (props) => {
             onClick={() => {
               props.setModal(true);
               props.setModalId(props.index);
+              dataDispatch();
+              props.dispatch({
+                type: "SET/MODAL/SHOW",
+                payload: { showWhat: "modalCommand" },
+              });
             }}
           >
             Request
@@ -108,6 +126,10 @@ export const ListBlk = (props) => {
             onClick={() => {
               props.setModal(true);
               props.setModalId(props.index);
+              props.dispatch({
+                type: "SET/MODAL/SHOW",
+                payload: { showWhat: "modalNotification" },
+              });
             }}
           >
             Notifications

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import bell from "../Assets/bell.svg";
 import menu from "../Assets/menu.svg";
@@ -8,17 +8,19 @@ import { ModalDetail } from "../../src/Components/ModalComponents/ModalDetail";
 import { Notification } from "./Notification";
 
 import { ModalCommand } from "./ModalComponents/ModalCommand";
-
+import { ModalRental } from "./ModalComponents/ModalRental";
 export const Modal = (props) => {
   const modalDetail = useSelector((state) => state.ModalData.modalDetail);
   const modalLocation = useSelector((state) => state.CarLocation.locations);
-  const [showCommand, setShow] = useState("modalDetail");
+  const showModal = useSelector((state) => state.ModalData.show);
+
   const notificationShow = useSelector(
     (state) => state.NotificationReducer.notification
   );
 
   let component = <></>;
-  switch (showCommand) {
+
+  switch (showModal) {
     case "modalDetail":
       component = (
         <ModalDetail
@@ -39,6 +41,10 @@ export const Modal = (props) => {
       );
       break;
 
+    case "modalRental":
+      component = <ModalRental dispatch={props.dispatch} />;
+      break;
+
     default:
       break;
   }
@@ -49,13 +55,34 @@ export const Modal = (props) => {
           <button>
             <img src={bell} />
           </button>
-          <button onClick={() => setShow("modalDetail")}>
+          <button
+            onClick={() => {
+              props.dispatch({
+                type: "SET/MODAL/SHOW",
+                payload: { showWhat: "modalDetail" },
+              });
+            }}
+          >
             <img src={menu} />
           </button>
-          <button onClick={() => setShow("modalCommand")}>
+          <button
+            onClick={() => {
+              props.dispatch({
+                type: "SET/MODAL/SHOW",
+                payload: { showWhat: "modalCommand" },
+              });
+            }}
+          >
             <img src={sliders} />
           </button>
-          <button>
+          <button
+            onClick={() => {
+              props.dispatch({
+                type: "SET/MODAL/SHOW",
+                payload: { showWhat: "modalRental" },
+              });
+            }}
+          >
             <img src={trending} />
           </button>
         </menu>

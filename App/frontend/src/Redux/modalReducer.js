@@ -4,6 +4,7 @@ const initialState = {
   modalRequest: null,
   modalNotification: null,
   modalVehicleId: null,
+  show: "",
 };
 
 export const ModalData = (state = initialState, action) => {
@@ -12,6 +13,11 @@ export const ModalData = (state = initialState, action) => {
       return {
         ...state,
         modalDetail: { ...action.payload.modalDetail },
+      };
+    case "SET/MODAL/SHOW":
+      return {
+        ...state,
+        show: action.payload.showWhat,
       };
     default:
       return state;

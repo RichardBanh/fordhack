@@ -16,7 +16,8 @@ from .models import MessageNotificationModel
 from .serializer import MessageNotificationSerializer
 ##kinda hacky but i am just testing this first :/
 ##need to add non rental notifications
-from twilio import twillioSend
+from text import twillioSend
+
 class Notification(APIView):
 
     permission_classes = [permissions.IsAuthenticated]

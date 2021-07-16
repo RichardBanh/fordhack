@@ -29,11 +29,17 @@ class SystemFord(APIView):
             return Response( reqObj["request"], status=status.HTTP_200_OK)
             
     def post(self, request):
-        response = self.pullVehical_List()
-        return response
+        try:
+            response = self.pullVehical_List()
+            return response
+        except:
+            return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)
     
     def get(self, request):
-        latestUpdate = FordUptoDateModel.objects.latest('req_date')
-        serializer = FordUptoDateSerializer(latestUpdate).data
-        return Response(serializer, status=status.HTTP_200_OK)
+        try:
+            latestUpdate = FordUptoDateModel.objects.latest('req_date')
+            serializer = FordUptoDateSerializer(latestUpdate).data
+            return Response(serializer, status=status.HTTP_200_OK)
+        except:
+            return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)
 

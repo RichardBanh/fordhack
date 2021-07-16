@@ -72,13 +72,11 @@ export const Signup = (props) => {
                 email: email,
                 phone_number: phone,
               };
-              console.log(account);
               if (account === "staff") {
                 raw.is_staff = true;
               } else {
                 raw.is_admin = true;
               }
-              console.log(raw);
               props.setSign(false);
               fetchfun(
                 "http://127.0.0.1:8000/create/",
