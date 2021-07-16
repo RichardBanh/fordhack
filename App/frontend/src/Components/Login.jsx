@@ -9,6 +9,24 @@ export const Login = (props) => {
   const [userName, setUsername] = useState("");
   const [password, setPass] = useState("");
   const [showSignup, setSign] = useState(false);
+  const login = () => {
+    const raw = { username: userName, password: password };
+    fetchfun(
+      "http://127.0.0.1:8000/token/",
+      "POST",
+      true,
+      JSON.stringify(raw),
+      false
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        props.setJwt(res.access);
+        storeCookieJWT("refresh", "jwt", res);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
   return (
     <>
       {showSignup ? (
@@ -34,32 +52,8 @@ export const Login = (props) => {
             />
             <button
               onClick={(e) => {
-                const raw = { username: userName, password: password };
                 e.preventDefault();
-                fetchfun(
-                  "http://127.0.0.1:8000/token/",
-                  "POST",
-                  true,
-                  JSON.stringify(raw),
-                  false
-                )
-                  .then((res) => res.json())
-                  .then((res) => {
-                    props.setJwt(res.access);
-                    console.log(res);
-                    storeCookieJWT("refresh", "jwt", res);
-                  })
-                  .catch((res) => {
-                    console.log(res);
-                  });
-                // dispatch({
-                //   type: "LOGIN/MIDDLEWARE",
-                //   payload: {
-                //     url: "http://127.0.0.1:8000/token/",
-
-                //     method: "POST",
-                //   },
-                // });
+                login();
               }}
             >
               Login

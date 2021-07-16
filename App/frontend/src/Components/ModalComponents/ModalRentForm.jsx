@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { notification } from "../../NotificationFunction";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchfun } from "../../FetchFunction";
 
-export const ModalCreate = () => {
+export const ModalCreate = (props) => {
   const [showInfo, setShow] = useState(false);
   const [phone, setPhone] = useState("");
   const [startDate, setSDate] = useState("");
@@ -21,20 +22,30 @@ export const ModalCreate = () => {
     const raw = {
       vehicleId: vehicleId,
       rental_length_days: diffDays + "",
-      rental_by_phone: phone,
+      rental_by_phone: "+" + phone,
       rental_mile_limits: mile,
     };
     const stringified = JSON.stringify(raw);
-    console.log(stringified);
-    notification(
-      "http://127.0.0.1:8000/rent/",
-      "POST",
-      true,
-      stringified,
-      true,
-      dispatch,
-      "OK"
-    );
+
+    fetchfun("http://127.0.0.1:8000/rent/", "POST", true, stringified, true)
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        if (typeof response === "string") {
+          dispatch({
+            type: "NOTIFICATION/ON",
+            payload: { message: response },
+          });
+          props.setRented(true);
+          props.fetch();
+        } else {
+          dispatch({
+            type: "NOTIFICATION/ON",
+            payload: { message: "Ford Request Failed" },
+          });
+        }
+      });
   };
   return (
     <div>
@@ -74,7 +85,7 @@ export const ModalCreate = () => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <span class="validity"></span>
+          <span className="validity"></span>
         </div>
         <div>
           Mile limits:

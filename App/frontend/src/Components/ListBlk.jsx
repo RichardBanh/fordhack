@@ -126,9 +126,10 @@ export const ListBlk = (props) => {
             onClick={() => {
               props.setModal(true);
               props.setModalId(props.index);
+              dataDispatch();
               props.dispatch({
                 type: "SET/MODAL/SHOW",
-                payload: { showWhat: "modalNotification" },
+                payload: { showWhat: "modalAlerts" },
               });
             }}
           >

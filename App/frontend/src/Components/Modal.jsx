@@ -9,6 +9,7 @@ import { Notification } from "./Notification";
 
 import { ModalCommand } from "./ModalComponents/ModalCommand";
 import { ModalRental } from "./ModalComponents/ModalRental";
+import { Alert } from "./ModalComponents/Alerts";
 export const Modal = (props) => {
   const modalDetail = useSelector((state) => state.ModalData.modalDetail);
   const modalLocation = useSelector((state) => state.CarLocation.locations);
@@ -35,6 +36,10 @@ export const Modal = (props) => {
 
     case "modalRental":
       component = <ModalRental vehicleId={modalDetail.vehicleId} />;
+      break;
+
+    case "modalAlerts":
+      component = <Alert vehicleId={modalDetail.vehicleId} />;
       break;
 
     default:
